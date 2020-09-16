@@ -1,0 +1,215 @@
+object ColorSelectionForm: TColorSelectionForm
+  Left = 342
+  Height = 298
+  Top = 260
+  Width = 523
+  BorderIcons = [biHelp]
+  BorderStyle = bsToolWindow
+  Caption = 'Color Selection'
+  ClientHeight = 298
+  ClientWidth = 523
+  FormStyle = fsStayOnTop
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnShow = FormShow
+  LCLVersion = '0.9.31'
+  object Panel4: TPanel
+    Left = 256
+    Height = 87
+    Top = 0
+    Width = 257
+    BevelInner = bvLowered
+    BevelOuter = bvNone
+    Caption = 'Panel3'
+    ClientHeight = 87
+    ClientWidth = 257
+    TabOrder = 0
+    object Panel5: TPanel
+      Left = 1
+      Height = 85
+      Top = 1
+      Width = 255
+      Align = alClient
+      Caption = 'Panel2'
+      ClientHeight = 85
+      ClientWidth = 255
+      TabOrder = 0
+      object PanelLeftHeader1: TPanel
+        Left = 1
+        Height = 12
+        Top = 1
+        Width = 253
+        Align = alTop
+        ClientHeight = 12
+        ClientWidth = 253
+        TabOrder = 0
+        object LazGradient3: TLazGradient
+          Left = 1
+          Height = 10
+          Top = 1
+          Width = 251
+          Align = alClient
+          BeginColor = clSilver
+          EndColor = clBlue
+          Orientation = fdTopToBottom
+          Rounded = False
+        end
+        object Label2: TLabel
+          Left = 11
+          Height = 15
+          Top = -1
+          Width = 82
+          Caption = 'Selected Color'
+          Font.CharSet = RUSSIAN_CHARSET
+          Font.Color = clYellow
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Pitch = fpVariable
+          Font.Quality = fqDraft
+          Font.Style = [fsBold]
+          ParentColor = False
+          ParentFont = False
+        end
+      end
+      object Panel9: TPanel
+        Left = 1
+        Height = 71
+        Top = 13
+        Width = 253
+        Align = alClient
+        ClientHeight = 71
+        ClientWidth = 253
+        TabOrder = 1
+        object Image2: TImage
+          Left = 3
+          Height = 31
+          Top = 4
+          Width = 243
+        end
+        object Label4: TLabel
+          Left = 14
+          Height = 15
+          Top = 45
+          Width = 24
+          Caption = 'HEX:'
+          Font.CharSet = RUSSIAN_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Pitch = fpVariable
+          Font.Quality = fqDraft
+          Font.Style = [fsBold]
+          ParentColor = False
+          ParentFont = False
+        end
+        object Edit1: TEdit
+          Left = 46
+          Height = 15
+          Top = 42
+          Width = 86
+          Alignment = taCenter
+          AutoSize = False
+          BorderStyle = bsNone
+          Font.CharSet = RUSSIAN_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Pitch = fpFixed
+          Font.Quality = fqDraft
+          ParentFont = False
+          ReadOnly = True
+          TabOrder = 0
+          Text = 'Edit1'
+        end
+      end
+    end
+  end
+  object Panel6: TPanel
+    Left = 1
+    Height = 256
+    Top = 0
+    Width = 256
+    BevelInner = bvLowered
+    BevelOuter = bvNone
+    ClientHeight = 256
+    ClientWidth = 256
+    TabOrder = 1
+    object Panel7: TPanel
+      Left = 1
+      Height = 254
+      Top = 1
+      Width = 254
+      Align = alClient
+      ClientHeight = 254
+      ClientWidth = 254
+      TabOrder = 0
+      object PanelLeftHeader2: TPanel
+        Left = 1
+        Height = 12
+        Top = 1
+        Width = 252
+        Align = alTop
+        ClientHeight = 12
+        ClientWidth = 252
+        TabOrder = 0
+        object LazGradient4: TLazGradient
+          Left = 1
+          Height = 10
+          Top = 1
+          Width = 250
+          Align = alClient
+          BeginColor = clSilver
+          EndColor = clBlue
+          Orientation = fdTopToBottom
+          Rounded = False
+        end
+        object Label3: TLabel
+          Left = 11
+          Height = 15
+          Top = -1
+          Width = 39
+          Caption = 'Palette'
+          Font.CharSet = RUSSIAN_CHARSET
+          Font.Color = clYellow
+          Font.Height = -11
+          Font.Name = 'Arial'
+          Font.Pitch = fpVariable
+          Font.Quality = fqDraft
+          Font.Style = [fsBold]
+          ParentColor = False
+          ParentFont = False
+        end
+      end
+      object Panel8: TPanel
+        Left = 1
+        Height = 240
+        Top = 13
+        Width = 252
+        Align = alClient
+        ClientHeight = 240
+        ClientWidth = 252
+        TabOrder = 1
+        object Image1: TImage
+          Left = 1
+          Height = 238
+          Top = 1
+          Width = 250
+          Align = alClient
+          OnMouseDown = Image1MouseDown
+          OnMouseLeave = Image1MouseLeave
+          OnMouseMove = Image1MouseMove
+          OnMouseUp = Image1MouseUp
+        end
+      end
+    end
+  end
+  object Button1: TButton
+    Left = 390
+    Height = 25
+    Top = 264
+    Width = 123
+    Caption = 'Ok'
+    OnClick = Button1Click
+    TabOrder = 2
+  end
+end

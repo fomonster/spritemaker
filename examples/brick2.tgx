@@ -1,0 +1,122 @@
+<TextureGenerator>
+     <generator typeid="16">
+          <params hue="34" saturation="100" brightness="0">
+          </params>
+          <childs>
+               <generator typeid="33">
+                    <params LightX="46" LightY="-30" LightZ="58" Mode="0" Relief="20" NMSmooth="31">
+                    </params>
+                    <childs>
+                         <generator typeid="20">
+                              <params Method="11" Mode="0">
+                              </params>
+                              <childs>
+                                   <generator typeid="17">
+                                        <params colorscount="3">
+                                             <gradientpoint h="0" r="0.445946753" g="0.2346969247" b="0.2027035356" a="1">
+                                             </gradientpoint>
+                                             <gradientpoint h="1" r="0.2309578657" g="0.137819171" b="0.1127938032" a="1">
+                                             </gradientpoint>
+                                             <gradientpoint h="0.5000008345" r="0.1801766157" g="0.1623131335" b="0.1010750532" a="1">
+                                             </gradientpoint>
+                                        </params>
+                                        <childs>
+                                             <generator typeid="8">
+                                                  <params Mode="2" Width="8" Height="8" Iterations="5" Intensity="50" Distortion="0" RootSeed="1">
+                                                  </params>
+                                                  <childs>
+                                                  </childs>
+                                             </generator>
+                                        </childs>
+                                   </generator>
+                                   <generator typeid="26">
+                                        <params Method="0" Constant="0" Red="100" Green="0" Blue="0">
+                                        </params>
+                                        <childs>
+                                             <generator typeid="17">
+                                                  <params colorscount="4">
+                                                       <gradientpoint h="0" r="0" g="0" b="0" a="1">
+                                                       </gradientpoint>
+                                                       <gradientpoint h="1" r="1" g="1" b="1" a="1">
+                                                       </gradientpoint>
+                                                       <gradientpoint h="0.4260003567" r="1" g="0.1577057242" b="0" a="1">
+                                                       </gradientpoint>
+                                                       <gradientpoint h="0.5220003724" r="1" g="1" b="1" a="1">
+                                                       </gradientpoint>
+                                                  </params>
+                                                  <childs>
+                                                       <generator typeid="16">
+                                                            <params hue="-332" saturation="-100" brightness="-11">
+                                                            </params>
+                                                            <childs>
+                                                                 <generator typeid="20">
+                                                                      <params Method="10" Mode="0">
+                                                                      </params>
+                                                                      <childs>
+                                                                           <generator typeid="30">
+                                                                                <params Mode="0" Direction="1000" Distance="55">
+                                                                                </params>
+                                                                                <childs>
+                                                                                     <generator typeid="18">
+                                                                                          <params Radius="0">
+                                                                                          </params>
+                                                                                          <childs>
+                                                                                               <generator typeid="11">
+                                                                                                    <params Width="2" Height="6" Border="16" Shifts="609" WidthVariation="0" SlideVariation="0" RootSeed="1">
+                                                                                                    </params>
+                                                                                                    <childs>
+                                                                                                    </childs>
+                                                                                               </generator>
+                                                                                          </childs>
+                                                                                     </generator>
+                                                                                     <generator typeid="8">
+                                                                                          <params Mode="0" Width="32" Height="32" Iterations="5" Intensity="43" Distortion="0" RootSeed="1">
+                                                                                          </params>
+                                                                                          <childs>
+                                                                                          </childs>
+                                                                                     </generator>
+                                                                                     <generator typeid="8">
+                                                                                          <params Mode="2" Width="8" Height="8" Iterations="5" Intensity="2" Distortion="0" RootSeed="1">
+                                                                                          </params>
+                                                                                          <childs>
+                                                                                          </childs>
+                                                                                     </generator>
+                                                                                </childs>
+                                                                           </generator>
+                                                                           <generator typeid="25">
+                                                                                <params Alpha="43">
+                                                                                </params>
+                                                                                <childs>
+                                                                                     <generator typeid="17">
+                                                                                          <params colorscount="2">
+                                                                                               <gradientpoint h="0" r="0" g="0" b="0" a="1">
+                                                                                               </gradientpoint>
+                                                                                               <gradientpoint h="1" r="1" g="1" b="1" a="1">
+                                                                                               </gradientpoint>
+                                                                                          </params>
+                                                                                          <childs>
+                                                                                               <generator typeid="8">
+                                                                                                    <params Mode="2" Width="32" Height="32" Iterations="5" Intensity="50" Distortion="0" RootSeed="445">
+                                                                                                    </params>
+                                                                                                    <childs>
+                                                                                                    </childs>
+                                                                                               </generator>
+                                                                                          </childs>
+                                                                                     </generator>
+                                                                                </childs>
+                                                                           </generator>
+                                                                      </childs>
+                                                                 </generator>
+                                                            </childs>
+                                                       </generator>
+                                                  </childs>
+                                             </generator>
+                                        </childs>
+                                   </generator>
+                              </childs>
+                         </generator>
+                    </childs>
+               </generator>
+          </childs>
+     </generator>
+</TextureGenerator>

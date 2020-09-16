@@ -1,2 +1,6 @@
-# spritemaker
-Procedural sprite generation tool for artists
+# Sprite Maker
+
+This is gamedev tool to make procedural sprites.
+
+For more information:
+http://spritepacker.com/

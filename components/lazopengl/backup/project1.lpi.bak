@@ -1,0 +1,218 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <ProjectOptions>
+    <PathDelim Value="\"/>
+    <Version Value="5"/>
+    <General>
+      <MainUnit Value="0"/>
+      <IconPath Value=".\"/>
+      <TargetFileExt Value=""/>
+      <ActiveEditorIndexAtStart Value="0"/>
+    </General>
+    <VersionInfo>
+      <ProjectVersion Value=""/>
+      <Language Value=""/>
+      <CharSet Value=""/>
+    </VersionInfo>
+    <PublishOptions>
+      <Version Value="2"/>
+      <DestinationDirectory Value="$(TestDir)\publishedproject\"/>
+      <IgnoreBinaries Value="False"/>
+      <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
+      <ExcludeFileFilter Value="*.(bak|ppu|ppw|o|so);*~;backup"/>
+    </PublishOptions>
+    <RunParams>
+      <local>
+        <FormatVersion Value="1"/>
+        <LaunchingApplication PathPlusParams="\usr\X11R6\bin\xterm -T 'Lazarus Run Output' -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
+      </local>
+    </RunParams>
+    <RequiredPackages Count="2">
+      <Item1>
+        <PackageName Value="openglbox"/>
+        <MinVersion Valid="True"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="LCL"/>
+      </Item2>
+    </RequiredPackages>
+    <Units Count="20">
+      <Unit0>
+        <Filename Value="project1.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="project1"/>
+        <UsageCount Value="29"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="unit1.pas"/>
+        <ComponentName Value="Form1"/>
+        <IsPartOfProject Value="True"/>
+        <ResourceFilename Value="unit1.lrs"/>
+        <UnitName Value="Unit1"/>
+        <CursorPos X="22" Y="1"/>
+        <TopLine Value="1"/>
+        <EditorIndex Value="0"/>
+        <UsageCount Value="29"/>
+        <Loaded Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="..\..\apps\fpcbuild_2.0.4_exp\fpcsrc\packages\extra\opengl\gl.pp"/>
+        <UnitName Value="GL"/>
+        <CursorPos X="19" Y="2318"/>
+        <TopLine Value="2281"/>
+        <UsageCount Value="12"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="..\..\apps\fpcbuild_2.0.4_exp\fpcsrc\rtl\objpas\classes\classesh.inc"/>
+        <CursorPos X="17" Y="1460"/>
+        <TopLine Value="1458"/>
+        <UsageCount Value="10"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="usr\lib\lazarus\lcl\controls.pp"/>
+        <UnitName Value="Controls"/>
+        <CursorPos X="9" Y="1763"/>
+        <TopLine Value="1757"/>
+        <UsageCount Value="11"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="..\..\apps\fpcbuild_2.0.4_exp\fpcsrc\packages\extra\opengl\glx.pp"/>
+        <UnitName Value="GLX"/>
+        <CursorPos X="28" Y="136"/>
+        <TopLine Value="128"/>
+        <UsageCount Value="12"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="..\..\apps\fpcbuild_2.0.4_exp\fpcsrc\packages\extra\x11\xlib.pp"/>
+        <UnitName Value="xlib"/>
+        <CursorPos X="1" Y="1591"/>
+        <TopLine Value="1577"/>
+        <UsageCount Value="12"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="..\..\apps\fpcbuild_2.0.4_exp\fpcsrc\packages\extra\x11\x.pp"/>
+        <UnitName Value="x"/>
+        <CursorPos X="22" Y="57"/>
+        <TopLine Value="47"/>
+        <UsageCount Value="10"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="..\..\apps\fpcbuild_2.0.4_exp\fpcsrc\packages\extra\x11\xutil.pp"/>
+        <UnitName Value="xutil"/>
+        <CursorPos X="16" Y="156"/>
+        <TopLine Value="146"/>
+        <UsageCount Value="12"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="usr\lib\lazarus\lcl\lcltype.pp"/>
+        <UnitName Value="LCLType"/>
+        <CursorPos X="3" Y="86"/>
+        <TopLine Value="76"/>
+        <UsageCount Value="10"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="usr\lib\lazarus\lcl\include\wincontrol.inc"/>
+        <CursorPos X="3" Y="4685"/>
+        <TopLine Value="4682"/>
+        <UsageCount Value="10"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="usr\lib\lazarus\lcl\include\graphiccontrol.inc"/>
+        <CursorPos X="13" Y="53"/>
+        <TopLine Value="46"/>
+        <UsageCount Value="10"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="usr\lib\lazarus\lcl\lmessages.pp"/>
+        <UnitName Value="LMessages"/>
+        <CursorPos X="3" Y="489"/>
+        <TopLine Value="479"/>
+        <UsageCount Value="10"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="usr\lib\lazarus\lcl\include\control.inc"/>
+        <CursorPos X="1" Y="1"/>
+        <TopLine Value="1"/>
+        <UsageCount Value="11"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="..\..\apps\fpcbuild_2.0.4_exp\fpcsrc\rtl\inc\systemh.inc"/>
+        <CursorPos X="1" Y="373"/>
+        <TopLine Value="359"/>
+        <UsageCount Value="10"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="..\..\apps\fpcbuild_2.0.4_exp\fpcsrc\packages\extra\gtk\gtkgl\gtkglarea.pp"/>
+        <UnitName Value="gtkglarea"/>
+        <CursorPos X="1" Y="136"/>
+        <TopLine Value="133"/>
+        <UsageCount Value="10"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="usr\lib\lazarus\components\opengl\openglcontext.pas"/>
+        <UnitName Value="OpenGLContext"/>
+        <CursorPos X="9" Y="11"/>
+        <TopLine Value="418"/>
+        <UsageCount Value="10"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="usr\lib\lazarus\components\opengl\glgtkglxcontext.pas"/>
+        <UnitName Value="GLGtkGlxContext"/>
+        <CursorPos X="17" Y="12"/>
+        <TopLine Value="1"/>
+        <UsageCount Value="10"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="openglboxcomponent.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="openglboxcomponent"/>
+        <CursorPos X="14" Y="101"/>
+        <TopLine Value="92"/>
+        <UsageCount Value="23"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="unit1.lfm"/>
+        <CursorPos X="1" Y="1"/>
+        <TopLine Value="1"/>
+        <EditorIndex Value="1"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <SyntaxHighlighter Value="LFM"/>
+      </Unit19>
+    </Units>
+    <JumpHistory Count="0" HistoryIndex="-1"/>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="5"/>
+    <PathDelim Value="\"/>
+    <SearchPaths>
+      <SrcPath Value="$(LazarusDir)\lcl\;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType)\"/>
+    </SearchPaths>
+    <CodeGeneration>
+      <Generate Value="Faster"/>
+    </CodeGeneration>
+    <Linking>
+      <Debugging>
+        <GenerateDebugInfo Value="True"/>
+      </Debugging>
+      <Options>
+        <Win32>
+          <GraphicApplication Value="True"/>
+        </Win32>
+      </Options>
+    </Linking>
+    <Other>
+      <CompilerPath Value="$(CompPath)"/>
+    </Other>
+  </CompilerOptions>
+  <Debugging>
+    <Exceptions Count="2">
+      <Item1>
+        <Name Value="ECodetoolError"/>
+      </Item1>
+      <Item2>
+        <Name Value="EFOpenError"/>
+      </Item2>
+    </Exceptions>
+  </Debugging>
+</CONFIG>

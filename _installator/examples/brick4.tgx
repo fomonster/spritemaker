@@ -1,0 +1,44 @@
+<TextureGenerator>
+     <generator typeid="33">
+          <params LightX="19" LightY="-19" LightZ="46" Mode="0" Relief="9" NMSmooth="0">
+          </params>
+          <childs>
+               <generator typeid="16">
+                    <params hue="193" saturation="100" brightness="-7">
+                    </params>
+                    <childs>
+                         <generator typeid="20">
+                              <params Method="1" Mode="0">
+                              </params>
+                              <childs>
+                                   <generator typeid="16">
+                                        <params hue="199" saturation="52" brightness="33">
+                                        </params>
+                                        <childs>
+                                             <generator typeid="18">
+                                                  <params Radius="3">
+                                                  </params>
+                                                  <childs>
+                                                       <generator typeid="11">
+                                                            <params Width="8" Height="16" Border="25" Shifts="300" WidthVariation="200" SlideVariation="300" RootSeed="1">
+                                                            </params>
+                                                            <childs>
+                                                            </childs>
+                                                       </generator>
+                                                  </childs>
+                                             </generator>
+                                        </childs>
+                                   </generator>
+                                   <generator typeid="8">
+                                        <params Mode="1" Width="8" Height="8" Iterations="5" Intensity="50" Distortion="0" RootSeed="1">
+                                        </params>
+                                        <childs>
+                                        </childs>
+                                   </generator>
+                              </childs>
+                         </generator>
+                    </childs>
+               </generator>
+          </childs>
+     </generator>
+</TextureGenerator>

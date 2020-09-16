@@ -1,0 +1,50 @@
+
+
+function CursorAsImage(img:TImage): hicon;
+  var
+    cwidth, cheight: integer;
+    ii: iconinfo;
+    bmc, bmm: Graphics.TBitmap;
+    icon: hicon;
+    dr:TRect;
+
+  function create_curspace: Graphics.TBitmap;
+  begin
+    result := Graphics.TBitmap.create;
+    result.pixelformat := pf32bit;
+    result.width := cwidth;
+    result.height := cheight;
+  end;
+
+begin
+  cwidth := getsystemmetrics(sm_cxcursor);
+  cheight := getsystemmetrics(sm_cycursor);
+  bmc := create_curspace;
+  bmm := create_curspace;
+
+  with bmm.Canvas do
+  begin
+    brush.color := clwhite;
+    FillRect(0, 0, bmm.width, bmm.height);
+  end;
+
+  with bmc.canvas do
+  begin
+    dr.Top:=0;
+    dr.Left:=0;
+    dr.Right:=cwidth;
+    dr.Bottom:=cheight;
+    StretchDraw(dr,img.Picture.Graphic);
+  end;
+
+  ii.fIcon := false;
+  ii.hbmColor := bmc.Handle;
+  ii.hbmMask := bmm.handle;
+  ii.xHotspot := 0;
+  ii.yHotspot := 0;
+  icon := createiconindirect(ii);
+  result := copyicon(icon);
+  destroyicon(icon);
+  bmc.free;
+  bmm.Free;
+end;    

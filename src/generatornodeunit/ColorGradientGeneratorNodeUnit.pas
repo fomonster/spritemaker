@@ -1,0 +1,302 @@
+unit ColorGradientGeneratorNodeUnit;
+
+{$mode objfpc}{$H+}
+
+interface
+
+uses
+  Classes, SysUtils, GeneratorNodeUnit, RichView, RVStyle, SimSpin, SSColor,
+  SSGenericListUnit, SSXMLUnit;
+
+type
+
+TColorGradientGeneratorNodeUnit=class;
+
+TGradientInfo = class(TVectorItem)
+  ownergenerator:TColorGradientGeneratorNodeUnit;
+  index:Integer;
+  griHValue:Single;
+  griColorValue:TRGBAColor;
+  trackbarHValue:TTrackBarOnPanel;
+  imageColorValue:TImageOnPanel;
+  buttonDelete:TButtonOnPanel;
+
+  constructor Create;override;
+  destructor Destroy;override;
+
+  procedure OnColorClick;
+
+  procedure OnDeleteClick;
+
+  procedure DataReadFromUserInputTB;
+  procedure DataReadFromUserInputCL;
+end;
+
+TGradientInfoList=specialize TGenericVector<TGradientInfo>;
+
+TColorGradientGeneratorNodeUnit=class(TGeneratorNodeUnit)
+
+  RichView:TRichView;
+
+  DeleteIndex:Integer;
+
+  gradient:TRGBAGradient;
+
+  infolist:TGradientInfoList;
+
+  speButton:TButtonOnPanel;
+
+  constructor Create;override;
+  destructor Destroy;override;
+
+  procedure ShowPropertiesPage(_RichView:TRichView);override;
+
+  procedure Generate;override;
+  procedure RenderTexture(_sizex,_sizey:Integer);override;
+
+  procedure SetFromXML(xml:TXMLNode);override;
+  procedure SetToXML(xml:TXMLNode);override;
+
+  procedure OnAddColorClick;
+
+  procedure OnAddColor;
+  procedure OnDeleteColor;
+
+{  procedure DataReadFromUserInput;
+  procedure DataReadFromUserInputTB;}
+
+end;
+
+implementation
+
+  Uses GeneratorTreeUnit,SSConstantsUnit,ColorSelectionFormUnit,
+       SSTextureGeneratorUnit, ConstantsUnit, MainFormUnit;
+
+constructor TColorGradientGeneratorNodeUnit.Create;
+begin
+  inherited;
+  RichView:=nil;
+  gradient:=TRGBAGradient.Create;
+  gradient.Add(0,1,1,1,1);
+  gradient.Add(1,1,0,0,1);
+
+  infolist:=TGradientInfoList.Create;
+end;
+
+destructor TColorGradientGeneratorNodeUnit.Destroy;
+begin
+  infolist.Destroy;
+  gradient.Destroy;
+  inherited;
+end;
+
+procedure TColorGradientGeneratorNodeUnit.ShowPropertiesPage(_RichView:TRichView);
+  var
+    i:Integer;
+begin
+  IsOpenPage:=true;
+  RichView:=_RichView;
+
+  speButton:=AddButton(RichView,'Add Color',120,@OnAddColorClick);
+  RichView.AddBreak;
+
+  for i:=0 to infolist.length-1 do begin
+//
+    infolist[i].index:=i;
+    AddLabel(RichView,10,12,'Arial','');
+    infolist[i].buttonDelete:=MergeButton(RichView,'X',24,@infolist[i].OnDeleteClick);
+    infolist[i].trackbarHValue:=MergeTrackbar(RichView,0,500,round(infolist[i].griHValue*500),280,true,@infolist[i].DataReadFromUserInputTB);
+    infolist[i].imageColorValue:=MergeImage(RichView,100,24,true,@infolist[i].OnColorClick);
+//    RichView.AddBreak;
+
+    {$R-}
+    infolist[i].imageColorValue.Canvas.Brush.Color:=infolist[i].griColorValue.GetDWBGR;
+    infolist[i].imageColorValue.Canvas.Pen.Color:=0;
+    infolist[i].imageColorValue.Canvas.Rectangle(0,0,infolist[i].imageColorValue.Width,infolist[i].imageColorValue.Height);
+    {$R+}
+  end;
+  RichView.AddBreak;
+  IsOpenPage:=false;
+end;
+
+procedure TColorGradientGeneratorNodeUnit.Generate;
+  var
+    Node:TGeneratorNode;
+    i:Integer;
+begin
+  Node:=TGeneratorNode(GeneratorNodePtr);
+  if (Node.ChildsCount > 0) and Node.GeneratorNodeList[Node.Childs[0]].TextureGenerator.IsLoaded then begin
+    Node.TextureGenerator.SetFrom(Node.GeneratorNodeList[Node.Childs[0]].TextureGenerator);
+    gradient.Clear;
+    for i:=0 to infolist.length-1 do begin
+      infolist[i].griColorValue.a:=1;
+      gradient.Add(infolist[i].griHValue,infolist[i].griColorValue);
+    end;
+    gradient.Sort;
+    Node.TextureGenerator.Color_ColorGradient(gradient);
+  end;
+end;
+
+procedure TColorGradientGeneratorNodeUnit.RenderTexture(_sizex,_sizey:Integer);
+  var
+    Node:TGeneratorNode;
+    i:Integer;
+begin
+  Node:=TGeneratorNode(GeneratorNodePtr);
+  if (Node.ChildsCount > 0) and (Node.GeneratorNodeList[Node.Childs[0]].TextureRenderer<>nil) and Node.GeneratorNodeList[Node.Childs[0]].TextureRenderer.IsLoaded then begin
+
+    if Node.TextureRenderer<>nil then Node.TextureRenderer.Destroy;
+    Node.TextureRenderer:=TTextureGenerator.Create;
+    Node.TextureRenderer.Width := _sizex;
+    Node.TextureRenderer.Height := _sizey;
+
+    Node.TextureRenderer.SetFrom(Node.GeneratorNodeList[Node.Childs[0]].TextureRenderer);
+    gradient.Clear;
+    for i:=0 to infolist.length-1 do begin
+      infolist[i].griColorValue.a:=1;
+      gradient.Add(infolist[i].griHValue,infolist[i].griColorValue);
+    end;
+    gradient.Sort;
+    Node.TextureRenderer.Color_ColorGradient(gradient);
+    
+    Node.GeneratorNodeList[Node.Childs[0]].TextureRenderer.Destroy;
+    Node.GeneratorNodeList[Node.Childs[0]].TextureRenderer:=nil;
+  end;
+end;
+
+procedure TColorGradientGeneratorNodeUnit.SetFromXML(xml:TXMLNode);
+  var
+    i:Integer;
+    info:TGradientInfo;
+begin
+  infolist.Clear;
+  for i:=0 to xml.SubNodesCount-1 do if xml.SubNodes[i].name='gradientpoint' then begin
+    info:=infolist.Add;
+    info.ownergenerator:=self;
+    info.griHValue:=xml.SubNodes[i].Attribute_Float('h');
+    info.griColorValue.r:=xml.SubNodes[i].Attribute_Float('r');
+    info.griColorValue.g:=xml.SubNodes[i].Attribute_Float('g');
+    info.griColorValue.b:=xml.SubNodes[i].Attribute_Float('b');
+    info.griColorValue.a:=xml.SubNodes[i].Attribute_Float('a');
+  end;
+end;
+
+procedure TColorGradientGeneratorNodeUnit.SetToXML(xml:TXMLNode);
+  var
+    node2:TXMLNode;
+    i:Integer;
+begin
+  xml.Attribute_Add('colorscount')^.Value:=IntToStr(infolist.length);
+  for i:=0 to infolist.length-1 do begin
+    node2:=xml.SubNodes_Add;
+    node2.Name:='gradientpoint';
+    node2.Attribute_Add('h')^.Value:=FloatToStr(infolist[i].griHValue);
+    node2.Attribute_Add('r')^.Value:=FloatToStr(infolist[i].griColorValue.r);
+    node2.Attribute_Add('g')^.Value:=FloatToStr(infolist[i].griColorValue.g);
+    node2.Attribute_Add('b')^.Value:=FloatToStr(infolist[i].griColorValue.b);
+    node2.Attribute_Add('a')^.Value:=FloatToStr(infolist[i].griColorValue.a);
+  end;
+end;
+
+
+procedure TColorGradientGeneratorNodeUnit.OnAddColorClick;
+begin
+  MainForm.FastCall:=@OnAddColor;
+end;
+
+procedure TColorGradientGeneratorNodeUnit.OnDeleteColor;
+begin
+  if RichView<>nil then begin
+    infolist.Delete(DeleteIndex);
+    RichView.Visible:=false;
+    RichView.Clear;
+    ShowPropertiesPage(RichView);
+    RichView.Format;
+    RichView.Visible:=true;
+    TGeneratorNode(GeneratorNodePtr).IsNeedChange:=true;
+    IsDocSaved:=false;
+  end;
+end;
+
+procedure TColorGradientGeneratorNodeUnit.OnAddColor;
+  var
+    info:TGradientInfo;
+begin
+  if RichView<>nil then begin
+    info:=infolist.Add;
+    info.ownergenerator:=self;
+    RichView.Visible:=false;
+    RichView.Clear;
+    ShowPropertiesPage(RichView);
+    RichView.Format;
+    RichView.Visible:=true;
+    TGeneratorNode(GeneratorNodePtr).IsNeedChange:=true;
+    IsDocSaved:=false;
+  end;
+end;
+
+{procedure TColorGradientGeneratorNodeUnit.DataReadFromUserInput;
+  var
+    Node:TGeneratorNode;
+begin
+  Node:=TGeneratorNode(GeneratorNodePtr);
+  Node.IsNeedChange:=true;
+end;
+
+procedure TColorGradientGeneratorNodeUnit.DataReadFromUserInputTB;
+  var
+    Node:TGeneratorNode;
+begin
+  Node:=TGeneratorNode(GeneratorNodePtr);
+  Node.IsNeedChange:=true;
+end;
+}
+{******************************************************************************}
+constructor TGradientInfo.Create;
+begin
+  griHValue:=0.5;
+  griColorValue.Eqv(1,1,0,1);
+  inherited;
+end;
+
+destructor TGradientInfo.Destroy;
+begin
+  inherited;
+end;
+
+procedure TGradientInfo.OnDeleteClick;
+begin
+  ownergenerator.DeleteIndex:=index;
+  MainForm.FastCall:=@ownergenerator.OnDeleteColor;
+end;
+
+procedure TGradientInfo.OnColorClick;
+begin
+  ColorSelectionForm.SelectedColor:=griColorValue;
+  ColorSelectionForm.pchange:=@DataReadFromUserInputCL;
+  ColorSelectionForm.Show;
+end;
+
+procedure TGradientInfo.DataReadFromUserInputTB;
+begin
+  if ownergenerator.IsOpenPage then exit;
+  griHValue:=trackbarHValue.Position/500;
+  TGeneratorNode(ownergenerator.GeneratorNodePtr).IsNeedChange:=true;
+  IsDocSaved:=false;
+end;
+
+procedure TGradientInfo.DataReadFromUserInputCL;
+begin
+  if ownergenerator.IsOpenPage then exit;
+  griColorValue:=ColorSelectionForm.SelectedColor;
+
+  imageColorValue.Canvas.Brush.Color:=griColorValue.GetDWBGR;
+  imageColorValue.Canvas.Pen.Color:=0;
+  imageColorValue.Canvas.Rectangle(0,0,imageColorValue.Width,imageColorValue.Height);
+
+  TGeneratorNode(ownergenerator.GeneratorNodePtr).IsNeedChange:=true;
+  IsDocSaved:=false;
+end;
+{******************************************************************************}
+end.
+

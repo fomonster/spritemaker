@@ -1,0 +1,40 @@
+<TextureGenerator>
+     <generator typeid="33">
+          <params LightX="20" LightY="-20" LightZ="28" Mode="0" Relief="20" NMSmooth="3">
+          </params>
+          <childs>
+               <generator typeid="20">
+                    <params Method="7" Mode="0">
+                    </params>
+                    <childs>
+                         <generator typeid="17">
+                              <params colorscount="4">
+                                   <gradientpoint h="0" r="0" g="0.5148358941" b="1" a="1">
+                                   </gradientpoint>
+                                   <gradientpoint h="1" r="1" g="0" b="0.1780817658" a="1">
+                                   </gradientpoint>
+                                   <gradientpoint h="0.2220000029" r="0.3374778032" g="0.8905194402" b="0.2851561904" a="1">
+                                   </gradientpoint>
+                                   <gradientpoint h="0.6859999895" r="0.1315091401" g="1" b="0" a="1">
+                                   </gradientpoint>
+                              </params>
+                              <childs>
+                                   <generator typeid="32">
+                                        <params Width="8" Height="7" Iterations="3" RootSeed="0">
+                                        </params>
+                                        <childs>
+                                        </childs>
+                                   </generator>
+                              </childs>
+                         </generator>
+                         <generator typeid="8">
+                              <params Mode="1" Width="12" Height="12" Iterations="5" Intensity="50" Distortion="0" RootSeed="1">
+                              </params>
+                              <childs>
+                              </childs>
+                         </generator>
+                    </childs>
+               </generator>
+          </childs>
+     </generator>
+</TextureGenerator>

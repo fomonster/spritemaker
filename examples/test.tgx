@@ -1,0 +1,62 @@
+<TextureGenerator>
+     <generator typeid="20">
+          <params Method="11" Mode="0">
+          </params>
+          <childs>
+               <generator typeid="33">
+                    <params LightX="-30" LightY="44" LightZ="100">
+                    </params>
+                    <childs>
+                         <generator typeid="17">
+                              <params colorscount="3">
+                                   <gradientpoint h="0" r="0.060424839" g="0.0687771931" b="0.080200237" a="1">
+                                   </gradientpoint>
+                                   <gradientpoint h="1" r="1" g="1" b="1" a="1">
+                                   </gradientpoint>
+                                   <gradientpoint h="0.5000003576" r="0.3178846836" g="0.5312045813" b="0.7226566076" a="1">
+                                   </gradientpoint>
+                              </params>
+                              <childs>
+                                   <generator typeid="8">
+                                        <params Mode="1" Width="8" Height="8" Iterations="5" Intensity="50" Distortion="0" RootSeed="1">
+                                        </params>
+                                        <childs>
+                                        </childs>
+                                   </generator>
+                              </childs>
+                         </generator>
+                    </childs>
+               </generator>
+               <generator typeid="26">
+                    <params Method="0" Constant="0" Red="100" Green="100" Blue="100">
+                    </params>
+                    <childs>
+                         <generator typeid="33">
+                              <params LightX="-43" LightY="52" LightZ="64">
+                              </params>
+                              <childs>
+                                   <generator typeid="17">
+                                        <params colorscount="3">
+                                             <gradientpoint h="0" r="0" g="0" b="0" a="1">
+                                             </gradientpoint>
+                                             <gradientpoint h="0.5000007153" r="1" g="1" b="1" a="1">
+                                             </gradientpoint>
+                                             <gradientpoint h="1" r="0.284439832" g="0.808594346" b="0.191406846" a="1">
+                                             </gradientpoint>
+                                        </params>
+                                        <childs>
+                                             <generator typeid="15">
+                                                  <params Filter="1" Width="8" Height="8" Iterations="5" Intensity="55" Distortion="0" CloudCover="433" CloudSharpness="1" RootSeed="1">
+                                                  </params>
+                                                  <childs>
+                                                  </childs>
+                                             </generator>
+                                        </childs>
+                                   </generator>
+                              </childs>
+                         </generator>
+                    </childs>
+               </generator>
+          </childs>
+     </generator>
+</TextureGenerator>

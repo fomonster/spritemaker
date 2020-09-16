@@ -1,0 +1,32 @@
+<TextureGenerator>
+     <generator typeid="34">
+          <params LightX="-22" LightY="-22" LightZ="78" Mode="0" Relief="8" NMSmooth="3">
+          </params>
+          <childs>
+               <generator typeid="7">
+                    <params r="1" g="0" b="0.9698435664" a="0">
+                    </params>
+                    <childs>
+                    </childs>
+               </generator>
+               <generator typeid="20">
+                    <params Method="0" Mode="0">
+                    </params>
+                    <childs>
+                         <generator typeid="10">
+                              <params Gradient="3" Width="32" Height="3" RootSeed="6">
+                              </params>
+                              <childs>
+                              </childs>
+                         </generator>
+                         <generator typeid="10">
+                              <params Gradient="3" Width="3" Height="32" RootSeed="1">
+                              </params>
+                              <childs>
+                              </childs>
+                         </generator>
+                    </childs>
+               </generator>
+          </childs>
+     </generator>
+</TextureGenerator>

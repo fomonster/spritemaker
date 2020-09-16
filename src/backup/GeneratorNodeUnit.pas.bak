@@ -1,0 +1,541 @@
+unit GeneratorNodeUnit;
+
+{$mode objfpc}{$H+}
+
+interface
+
+uses
+  Classes, SysUtils,  RVStyle, SSXMLUnit,SimSpin, SSColor;
+
+type
+{******************************************************************************}
+TGeneratorNodeUnit=class;
+{******************************************************************************}
+TGeneratorNodeParam=class
+
+  owner:TGeneratorNodeUnit;
+
+  id:Integer;
+  name:String;
+  IsSelected:boolean;
+
+  int_value:PInteger;
+  int_min,int_max:Integer;
+
+  list_values:String;
+
+  color_value:PRGBAColor;
+
+  cSE:TSpinEditOnPanel;
+  cTB:TTrackBarOnPanel;
+  cCB:TComboBoxOnPanel;
+  cCI:TImageOnPanel;
+
+  ParamType:Integer;
+
+  constructor Create;
+  destructor Destroy;
+
+  procedure OnChangeSE;
+  procedure OnChangeTB;
+  procedure OnChangeCB;
+  procedure OnClickCI;
+  procedure OnChangeCI;
+end;
+{******************************************************************************}
+TGeneratorNodeParamArray=array [0..500000000] of TGeneratorNodeParam;
+PGeneratorNodeParamArray=^TGeneratorNodeParamArray;
+{******************************************************************************}
+TGeneratorNodeParamList = class
+
+private
+
+public
+
+  GenericListArray:PGeneratorNodeParamArray;
+
+  Count:Integer;
+
+  constructor Create;
+  destructor Destroy;
+
+  procedure Clear;
+  procedure SetLength(NewLength:Integer);
+
+  function Get(index:Integer):TGeneratorNodeParam;
+  procedure Put(index:Integer;const value:TGeneratorNodeParam);
+
+  function Add:TGeneratorNodeParam;
+  function Insert(index:Integer):TGeneratorNodeParam;
+  function Push:TGeneratorNodeParam;
+  procedure Pop;
+  procedure Delete(index:Integer);
+
+  procedure DeleteSelected;
+
+  procedure ShellSort;
+
+  function GetItemId(name:String):Integer;
+  function GetItem(name:String):TGeneratorNodeParam;
+
+  property item[index : Integer]:TGeneratorNodeParam read Get;default;
+
+end;
+{******************************************************************************}
+TGeneratorNodeUnit=class
+
+  TypeId:Integer;
+
+  GeneratorNodePtr:TClass;
+
+  IsOpenPage:boolean;
+
+  paramlist:TGeneratorNodeParamList;
+
+  constructor Create;virtual;
+  destructor Destroy;virtual;
+
+  procedure ShowPropertiesPage(RichView:TRichView);virtual;
+
+  procedure Generate;virtual;
+  procedure RenderTexture(_sizex,_sizey:Integer);virtual;
+
+  procedure SetFromXML(xml:TXMLNode);virtual;
+  procedure SetToXML(xml:TXMLNode);virtual;
+
+  //****************************************************************************
+  procedure AddParam_Int(name:String;min,max:Integer;variable:PInteger);
+  procedure AddParam_List(name,values:String;variable:PInteger);
+  procedure AddParam_Color(name:String;variable:PRGBAColor);
+
+end;
+{******************************************************************************}
+implementation
+
+ Uses GeneratorTreeUnit,SSConstantsUnit, SSTextureGeneratorUnit, ConstantsUnit, ColorSelectionFormUnit;
+
+{******************************************************************************}
+constructor TGeneratorNodeParam.Create;
+begin
+  cSE:=nil;
+  cTB:=nil;
+  cCB:=nil;
+end;
+
+destructor TGeneratorNodeParam.Destroy;
+begin
+
+end;
+
+procedure TGeneratorNodeParam.OnChangeSE;
+  var
+    Node:TGeneratorNode;
+begin
+  if owner.IsOpenPage then exit;
+  if ParamType=0 then begin
+    Node:=TGeneratorNode(owner.GeneratorNodePtr);
+    cSE.GetValue(int_value^); cTB.SetValue(int_value^);
+    Node.IsNeedChange:=true;
+    IsDocSaved:=false;
+  end;
+end;
+
+procedure TGeneratorNodeParam.OnChangeTB;
+  var
+    Node:TGeneratorNode;
+begin
+  if owner.IsOpenPage then exit;
+  if ParamType=0 then begin
+    Node:=TGeneratorNode(owner.GeneratorNodePtr);
+    cTB.GetValue(int_value^); cSE.SetValue(int_value^);
+    Node.IsNeedChange:=true;
+    IsDocSaved:=false;
+  end;
+end;
+
+procedure TGeneratorNodeParam.OnChangeCB;
+  var
+    Node:TGeneratorNode;
+begin
+  if owner.IsOpenPage then exit;
+  if ParamType=1 then begin
+    Node:=TGeneratorNode(owner.GeneratorNodePtr);
+    cCB.GetValue(int_value^);
+    Node.IsNeedChange:=true;
+    IsDocSaved:=false;
+  end;
+end;
+
+procedure TGeneratorNodeParam.OnClickCI;
+begin
+  ColorSelectionForm.SelectedColor:=color_value^;
+  ColorSelectionForm.pchange:=@OnChangeCI;
+  ColorSelectionForm.Show;
+end;
+
+procedure TGeneratorNodeParam.OnChangeCI;
+  var
+    Node:TGeneratorNode;
+begin
+  if owner.IsOpenPage then exit;
+  if ParamType=2 then begin
+    Node:=TGeneratorNode(owner.GeneratorNodePtr);
+
+    cCI.Canvas.Brush.Color:=ColorSelectionForm.SelectedColor.GetDWABGR;
+    cCI.Canvas.Pen.Color:=0;
+    cCI.Canvas.Rectangle(0,0,cCI.Width,cCI.Height);
+    color_value^:=ColorSelectionForm.SelectedColor;
+
+    Node.IsNeedChange:=true;
+    IsDocSaved:=false;
+  end;
+end;
+{******************************************************************************}
+// TGeneratorNodeParamList
+constructor TGeneratorNodeParamList.Create;
+begin
+  GenericListArray:=nil;
+  count:=0;
+end;
+
+destructor TGeneratorNodeParamList.Destroy;
+begin
+  Clear;
+end;
+
+procedure TGeneratorNodeParamList.Clear;
+  var
+    i:Integer;
+begin
+  for i:=0 to count-1 do
+    TGeneratorNodeParam(GenericListArray^[i]).Destroy;
+  Count:=0;
+  Freemem(GenericListArray);
+  GenericListArray:=nil;
+end;
+
+procedure TGeneratorNodeParamList.SetLength(NewLength:Integer);
+  var
+    i:Integer;
+begin
+  if NewLength = count then exit;
+  if NewLength > 0 then begin
+    if NewLength < count then begin
+      for i:=NewLength to count-1 do
+        TGeneratorNodeParam(GenericListArray^[i]).Destroy;
+    end;
+    ReAllocMem(GenericListArray,sizeof(TGeneratorNodeParam) * NewLength);
+    if NewLength > count then begin
+      for i:=count to NewLength-1 do begin
+        GenericListArray^[i]:=TGeneratorNodeParam.Create;
+      end;
+    end;
+    count:=NewLength;
+  end else begin
+    Clear;
+  end;
+end;
+
+function TGeneratorNodeParamList.Get(index:Integer):TGeneratorNodeParam;
+begin
+  if (GenericListArray<>nil) and (index>=0) and (index<count)
+    then result:=TGeneratorNodeParam(GenericListArray^[index])
+    else result:=nil;
+end;
+
+procedure TGeneratorNodeParamList.Put(index:Integer;const value:TGeneratorNodeParam);
+begin
+  if (index>=0) and (index<count)
+    then GenericListArray^[index]:=value;
+end;
+
+function TGeneratorNodeParamList.Add:TGeneratorNodeParam;
+begin
+  SetLength(count+1);
+  Result:=TGeneratorNodeParam(GenericListArray^[count-1]);
+end;
+
+function TGeneratorNodeParamList.Insert(index:Integer):TGeneratorNodeParam;
+  var
+    i:Integer;
+begin
+  if (index>=0) and (index<=count) then begin
+    ReAllocMem(GenericListArray,sizeof(TGeneratorNodeParam) * (count+1));
+    if index < count then begin
+      Move(GenericListArray^[index],GenericListArray^[index+1],(count-index)*sizeof(TGeneratorNodeParam));
+    end;
+    GenericListArray^[index]:=TGeneratorNodeParam.Create;
+    inc(count);
+    result:=TGeneratorNodeParam(GenericListArray^[index]);
+  end else result:=nil;
+end;
+
+function TGeneratorNodeParamList.Push:TGeneratorNodeParam;
+begin
+  SetLength(count+1);
+  Result:=TGeneratorNodeParam(GenericListArray^[count-1]);
+end;
+
+procedure TGeneratorNodeParamList.Pop;
+begin
+  Delete(count-1);
+end;
+
+
+procedure TGeneratorNodeParamList.Delete(index:Integer);
+  var
+    i:Integer;
+begin
+  if (index>=0) and (index<count) then begin
+    TGeneratorNodeParam(GenericListArray^[index]).Destroy;
+    if index < count-1 then begin
+      Move(GenericListArray^[index+1],GenericListArray^[index],(count-index-1)*sizeof(TGeneratorNodeParam));
+    end;
+    dec(count);
+    ReAllocMem(GenericListArray,sizeof(TGeneratorNodeParam) * count);
+  end;
+end;
+
+
+// Процедурка для удаления множества элементов помеченных на удаление
+procedure TGeneratorNodeParamList.DeleteSelected;
+  var
+    i,j,k:Integer;
+begin
+  j:=-1;
+  k:=0;
+  for i:=0 to count-1 do begin
+    if GenericListArray^[i].IsSelected then begin
+      TGeneratorNodeParam(GenericListArray^[i]).Destroy;
+      inc(k);
+      if j=-1 then j:=i;
+    end else begin
+      if j>=0 then begin
+        GenericListArray^[j]:=GenericListArray^[i];
+        j:=j+1;
+      end;
+    end;
+  end;
+  count:=count-k;
+  if k>0 then ReAllocMem(GenericListArray,sizeof(TGeneratorNodeParam)*count);
+end;
+
+// Сортировка Шелла - по именам моделей
+procedure TGeneratorNodeParamList.ShellSort;
+  var
+    d,i,t:Integer;
+    k:boolean;
+    tmp:TGeneratorNodeParam;
+begin
+  d:=count div 2;
+  while d>0 do begin
+    k:=true;
+    while k do begin
+      k:=false;
+      for i:=1 to count-d do begin
+        if GenericListArray^[i-1].name>GenericListArray^[i+d-1].name then begin
+          tmp:=TGeneratorNodeParam(GenericListArray^[i-1]);
+          GenericListArray^[i-1]:=GenericListArray^[i+d-1];
+          GenericListArray^[i+d-1]:=tmp;
+          k:=true;
+        end;
+      end;
+    end;
+    d:=d div 2;
+  end;
+end;
+
+// Поиск методом деления попалам
+function TGeneratorNodeParamList.GetItemId(name:String):Integer;
+  var
+    a,b,c:Integer;
+begin
+  result:=-1;
+  name:=LowerCase(name);
+  a:=1;
+  b:=count;
+  c:=(a+b) div 2;
+  while b-a>1 do begin
+    c:=(a+b) div 2;
+    if GenericListArray^[c-1].name>name then b:=c
+    else a:=c;
+  end;
+  if GenericListArray^[a-1].name=name then result:=a-1
+  else if GenericListArray^[b-1].name=name then result:=b-1;
+  if result<0 then begin
+    result:=0;
+  end;
+end;
+
+function TGeneratorNodeParamList.GetItem(name:String):TGeneratorNodeParam;
+  var
+    a,b,c:Integer;
+begin
+  result:=nil;
+  name:=LowerCase(name);
+  a:=1;
+  b:=count;
+  c:=(a+b) div 2;
+  while b-a>1 do begin
+    c:=(a+b) div 2;
+    if GenericListArray^[c-1].name>name then b:=c
+    else a:=c;
+  end;
+  if GenericListArray^[a-1].name=name then result:=TGeneratorNodeParam(GenericListArray^[a-1])
+  else if GenericListArray^[b-1].name=name then result:=TGeneratorNodeParam(GenericListArray^[b-1]);
+end;
+{******************************************************************************}
+constructor TGeneratorNodeUnit.Create;
+begin
+  GeneratorNodePtr := nil;
+  paramlist:=TGeneratorNodeParamList.Create;
+end;
+
+destructor TGeneratorNodeUnit.Destroy;
+begin
+  paramlist.Destroy;
+end;
+
+procedure TGeneratorNodeUnit.ShowPropertiesPage(RichView:TRichView);
+  var
+    i,j,k:Integer;
+    param:TGeneratorNodeParam;
+    s,v,d:String;
+begin
+  IsOpenPage:=true;
+  for i:=0 to paramlist.Count-1 do begin
+    param:=paramlist[i];
+    if param.ParamType =0 then begin
+      AddLabel(RichView,80,10,'Arial',param.name);
+      param.cTB:=MergeTrackbar(RichView,param.int_min,param.int_max,param.int_value^,280,true,@param.OnChangeTB);
+      param.cSE:=MergeIntegerInput(RichView,param.int_min,param.int_max,param.int_value^,80,true,@param.OnChangeSE);
+      param.cTB.SetValue(param.int_value^);
+      param.cSE.SetValue(param.int_value^);
+    end else if param.ParamType = 1 then begin
+      AddLabel(RichView,80,10,'Arial',param.name);
+      param.cCB:=MergeComboBox(RichView,360,true,@param.OnChangeCB);
+      param.cCB.ReadOnly:=true;
+      param.cCB.Items.Clear;
+      j:=0;
+      s:=param.list_values;
+      while s<>'' do begin
+        k:=pos(',',s);
+        if k>0 then begin
+          v:=copy(s,1,k-1);
+          delete(s,1,k);
+        end else begin
+          v:=s;
+          s:='';
+        end;
+        k:=pos('=',v);
+        if k>0 then begin
+          d:=copy(v,k+1,length(v)-k);
+          v:=copy(v,1,k-1);
+          param.cCB.AddItem(v,TObject(StrToIntDef(d,j)));
+        end else begin
+          param.cCB.AddItem(v,TObject(j));
+        end;
+        inc(j);
+      end;
+      param.cCB.ItemIndex:=0;
+      param.cCB.SetValue(param.int_value^);
+    end else if param.ParamType = 2 then begin
+      AddLabel(RichView,80,10,'Arial',param.name);
+      param.cCI:=MergeImage(RichView,100,24,true,@param.OnClickCI);
+      param.cCI.Canvas.Brush.Color:=param.color_value^.GetDWBGR;
+      param.cCI.Canvas.Pen.Color:=0;
+      param.cCI.Canvas.Rectangle(0,0,param.cCI.Width,param.cCI.Height);
+    end;
+  end;
+  IsOpenPage:=false;
+end;
+
+procedure TGeneratorNodeUnit.Generate;
+begin
+end;
+
+procedure TGeneratorNodeUnit.RenderTexture(_sizex,_sizey:Integer);
+begin
+end;
+
+procedure TGeneratorNodeUnit.SetFromXML(xml:TXMLNode);
+  var
+    i:Integer;
+    param:TGeneratorNodeParam;
+begin
+  IsOpenPage:=true;
+  for i:=0 to paramlist.Count-1 do begin
+    param:=paramlist[i];
+    if param.ParamType=0 then begin
+      param.int_value^:=xml.Attribute_Int(param.name);
+    end else if param.ParamType=1 then begin
+      param.int_value^:=xml.Attribute_Int(param.name);
+    end else if param.ParamType=2 then begin
+      param.color_value^.r:=xml.Attribute_Float('r');
+      param.color_value^.g:=xml.Attribute_Float('g');
+      param.color_value^.b:=xml.Attribute_Float('b');
+      param.color_value^.a:=xml.Attribute_Float('a');
+    end;
+  end;
+end;
+
+procedure TGeneratorNodeUnit.SetToXML(xml:TXMLNode);
+  var
+    i:Integer;
+    param:TGeneratorNodeParam;
+begin
+  IsOpenPage:=true;
+  for i:=0 to paramlist.Count-1 do begin
+    param:=paramlist[i];
+    if param.ParamType=0 then begin
+      xml.Attribute_Add(param.name)^.Value:=IntToStr(param.int_value^);
+    end else if param.ParamType=1 then begin
+      xml.Attribute_Add(param.name)^.Value:=IntToStr(param.int_value^);
+    end else if param.ParamType=2 then begin
+      xml.Attribute_Add('r')^.Value:=FloatToStr(param.color_value^.r);
+      xml.Attribute_Add('g')^.Value:=FloatToStr(param.color_value^.g);
+      xml.Attribute_Add('b')^.Value:=FloatToStr(param.color_value^.b);
+      xml.Attribute_Add('a')^.Value:=FloatToStr(param.color_value^.a);
+    end;
+  end;
+end;
+
+procedure TGeneratorNodeUnit.AddParam_Int(name:String;min,max:Integer;variable:PInteger);
+  var
+    param:TGeneratorNodeParam;
+begin
+  param:=paramlist.Add;
+  param.owner:=self;
+  param.ParamType:=0;
+  param.name:=name;
+  param.int_value:=variable;
+  param.int_min:=min;
+  param.int_max:=max;
+end;
+
+procedure TGeneratorNodeUnit.AddParam_List(name,values:String;variable:PInteger);
+  var
+    param:TGeneratorNodeParam;
+begin
+  param:=paramlist.Add;
+  param.owner:=self;
+  param.ParamType:=1;
+  param.name:=name;
+  param.int_value:=variable;
+  param.list_values:=values;
+end;
+
+procedure TGeneratorNodeUnit.AddParam_Color(name:String;variable:PRGBAColor);
+  var
+    param:TGeneratorNodeParam;
+begin
+  param:=paramlist.Add;
+  param.owner:=self;
+  param.ParamType:=2;
+  param.name:=name;
+  param.color_value:=variable;
+end;
+{******************************************************************************}
+end.
+{******************************************************************************}
+

@@ -1,0 +1,529 @@
+{
+ /***************************************************************************
+                                  RGBGraphics.pas
+
+
+ ***************************************************************************/
+
+ *****************************************************************************
+ *                                                                           *
+ *  See the file COPYING.modifiedLGPL, included in this distribution,        *
+ *  for details about the copyright.                                         *
+ *                                                                           *
+ *  This program is distributed in the hope that it will be useful,          *
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of           *
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                     *
+ *                                                                           *
+ *****************************************************************************
+
+  Author:  Tom Gregorovic (_tom_@centrum.cz)
+
+  Abstract:
+    TRGB32Bitmap is a memory image which allows fast pixel manipulations.
+    TRGB32Canvas is a TRGB32Bitmap canvas for drawing primitives and
+      drawing bitmap image into TCanvas.
+}
+unit RGBGraphics;
+
+{$mode objfpc}{$H+}
+
+interface
+
+uses
+  gtk, RGBGTKRoutines,
+  Classes, SysUtils, LCLType, LCLProc, Interfaces, FPImage,
+  IntfGraphics, Graphics, Forms, Math,
+  RGBTypes, RGBGTKRoutines, RGBUtils;
+  
+
+type
+  TEraseMode = (emNone, emErase, emReplace);
+  TDrawMode = (dmOutlineAndFill, dmOutline, dmFill);
+
+  TRandomDensity = Word;
+const
+  MAXRANDOMDENSITY = $FFFF;
+  
+type
+  { TRGB32Canvas }
+
+  TRGB32Canvas = class
+  private
+    FDrawMode: TDrawMode;
+    FEraseMode: TEraseMode;
+    FFillColor: TRGB32Pixel;
+    FFloodFillTolerance: TPixelDifference;
+    FOutlineColor: TRGB32Pixel;
+    FOwner: TRGB32BitmapCore;
+    FPaperColor: TRGB32Pixel;
+    FRandomDensity: TRandomDensity;
+    FRandomEnabled: Boolean;
+    FRectangleRoundness: Integer;
+    function GetFillColor: TColor;
+    function GetOutlineColor: TColor;
+    function GetPaperColor: TColor;
+    procedure SetFillColor(const AValue: TColor);
+    procedure SetOutlineColor(const AValue: TColor);
+    procedure SetPaperColor(const AValue: TColor);
+  protected
+    function SamePixelUnsafe(X, Y: Integer; Value: TRGB32Pixel): Boolean;
+
+    procedure DrawOutlinePixel(X, Y: Integer);
+    procedure DrawFillPixel(X, Y: Integer);
+    procedure DrawPaperPixel(X, Y: Integer);
+    
+    procedure DrawReplacePixel(X, Y: Integer);
+
+    procedure DrawRandomOutlinePixel(X, Y: Integer);
+    procedure DrawRandomFillPixel(X, Y: Integer);
+    procedure DrawRandomPaperPixel(X, Y: Integer);
+    
+    procedure DrawEmptyPixel(X, Y: Integer);
+    
+    function GetOutlineProcedure: TDrawPixelProcedure; virtual;
+    function GetFillProcedure: TDrawPixelProcedure; virtual;
+  public
+    constructor Create(AOwner: TRGB32BitmapCore);
+
+    procedure SetColor(X, Y: Integer; Value: TColor);
+    function GetColor(X, Y: Integer): TColor;
+    
+    procedure Fill(Color: TColor);
+    procedure FillRect(X1, Y1, X2, Y2: Integer);
+    procedure Line(X1, Y1, X2, Y2: Integer);
+    procedure Rectangle(X1, Y1, X2, Y2: Integer);
+    procedure Ellipse(X1, Y1, X2, Y2: Integer);
+    procedure FloodFill(X, Y: Integer);
+  public
+    procedure DrawTo(ACanvas: TCanvas; X, Y: Integer);
+    procedure StretchDrawTo(ACanvas: TCanvas; DstX, DstY, DstWidth, DstHeight: Integer);
+  public
+    property EraseMode: TEraseMode read FEraseMode write FEraseMode;
+    property DrawMode: TDrawMode read FDrawMode write FDrawMode;
+    property FloodFillTolerance: TPixelDifference read FFloodFillTolerance
+      write FFloodFillTolerance;
+    
+    property FillColor: TColor read GetFillColor write SetFillColor;
+    property OutlineColor: TColor read GetOutlineColor write SetOutlineColor;
+    property PaperColor: TColor read GetPaperColor write SetPaperColor;
+
+    property RandomEnabled: Boolean read FRandomEnabled write FRandomEnabled;
+    property RandomDensity: TRandomDensity read FRandomDensity write FRandomDensity;
+    
+    property RectangleRoundness: Integer read FRectangleRoundness write FRectangleRoundness;
+  end;
+  
+  TSmoothMethod = (smAreaPixel, smBilinear, smBicubic);
+
+  { TRGB32Bitmap }
+
+  TRGB32Bitmap = class(TRGB32BitmapCore)
+  private
+    FCanvas: TRGB32Canvas;
+  public
+    constructor Create(AWidth, AHeight: Integer); override;
+    constructor CreateAsCopy(ABitmap: TRGB32BitmapCore); override;
+    constructor CreateFromData(AData: Pointer; AWidth, AHeight: Integer); override;
+    constructor CreateFromFile(const FileName: String);
+    constructor CreateFromBitmap(ABitmap: TBitmap);
+    destructor Destroy; override;
+
+    procedure SaveToFile(const FileName: String);
+  public
+    procedure Draw(X, Y: Integer; ABitmap: TRGB32Bitmap);
+
+    procedure FlipHorz;
+    procedure FlipVert;
+    procedure Rotate90;
+    procedure Rotate180;
+    procedure Rotate270;
+    
+    procedure StretchTrunc(AWidth, AHeight: Integer);
+    procedure StretchSmooth(AWidth, AHeight: Integer; Method: TSmoothMethod);
+    
+    procedure Invert;
+    procedure Grayscale;
+  public
+    property Canvas: TRGB32Canvas read FCanvas;
+  end;
+
+implementation
+
+{ TRGB32Bitmap }
+
+constructor TRGB32Bitmap.Create(AWidth, AHeight: Integer);
+begin
+  inherited;
+  FCanvas := TRGB32Canvas.Create(Self);
+end;
+
+constructor TRGB32Bitmap.CreateAsCopy(ABitmap: TRGB32BitmapCore);
+begin
+  inherited;
+  FCanvas := TRGB32Canvas.Create(Self);
+end;
+
+constructor TRGB32Bitmap.CreateFromData(AData: Pointer; AWidth, AHeight: Integer);
+begin
+  inherited;
+  FCanvas := TRGB32Canvas.Create(Self);
+end;
+
+constructor TRGB32Bitmap.CreateFromFile(const FileName: String);
+var
+  Picture: TPicture;
+begin
+  Picture := TPicture.Create;
+  try
+    Picture.LoadFromFile(FileName);
+    CreateFromBitmap(Picture.Bitmap);
+  finally
+    Picture.Free;
+  end;
+end;
+
+constructor TRGB32Bitmap.CreateFromBitmap(ABitmap: TBitmap);
+var
+  Image: TLazIntfImage;
+begin
+  Image := ABitmap.CreateIntfImage;
+  try
+    CreateFromLazIntfImage(Image);
+  finally
+    Image.Free;
+  end;
+end;
+
+destructor TRGB32Bitmap.Destroy;
+begin
+  FCanvas.Free;
+  inherited;
+end;
+
+procedure TRGB32Bitmap.SaveToFile(const FileName: String);
+var
+  Ext: String;
+  NewGraphic: TGraphic;
+  GraphicClass: TGraphicClass;
+begin
+  Ext := ExtractFileExt(FileName);
+  Delete(Ext, 1, 1); // delete '.'
+  GraphicClass := GetGraphicClassForFileExtension(Ext);
+  if GraphicClass = nil then Exit;
+
+  NewGraphic := GraphicClass.Create;
+  try
+    if not (NewGraphic is TBitmap) then Exit;
+    NewGraphic.Width := Width;
+    NewGraphic.Height := Height;
+    DrawRGB32Bitmap((NewGraphic as TBitmap).Canvas.Handle, 0, 0, 0, 0, Width, Height, Self);
+    NewGraphic.SaveToFile(Filename);
+  finally
+    NewGraphic.Free;
+  end;
+end;
+
+{
+procedure TRGB32Bitmap.SaveToClipboard;
+var
+  Ext: String;
+  NewGraphic: TGraphic;
+  GraphicClass: TGraphicClass;
+begin
+  Ext := ExtractFileExt(FileName);
+  Delete(Ext, 1, 1); // delete '.'
+  GraphicClass := GetGraphicClassForFileExtension(Ext);
+  if GraphicClass = nil then Exit;
+
+  NewGraphic := GraphicClass.Create;
+  try
+    if not (NewGraphic is TBitmap) then Exit;
+    NewGraphic.Width := Width;
+    NewGraphic.Height := Height;
+    DrawRGB32Bitmap((NewGraphic as TBitmap).Canvas.Handle, 0, 0, 0, 0, Width, Height, Self);
+    NewGraphic.SaveToFile(Filename);
+  finally
+    NewGraphic.Free;
+  end;
+end;
+}
+
+procedure TRGB32Bitmap.Draw(X, Y: Integer; ABitmap: TRGB32Bitmap);
+begin
+  DrawRGB32Bitmap(Self, X, Y, ABitmap);
+end;
+
+procedure TRGB32Bitmap.FlipHorz;
+begin
+  FlipHorzRGB32Bitmap(Self);
+end;
+
+procedure TRGB32Bitmap.FlipVert;
+begin
+  FlipVertRGB32Bitmap(Self);
+end;
+
+procedure TRGB32Bitmap.Rotate90;
+begin
+  Rotate90CWRGB32Bitmap(Self);
+end;
+
+procedure TRGB32Bitmap.Rotate180;
+begin
+  Rotate180CWRGB32Bitmap(Self);
+end;
+
+procedure TRGB32Bitmap.Rotate270;
+begin
+  Rotate270CWRGB32Bitmap(Self);
+end;
+
+procedure TRGB32Bitmap.StretchTrunc(AWidth, AHeight: Integer);
+var
+  Result: TRGB32Bitmap;
+begin
+  if (AWidth = Width) and (AHeight = Height) then Exit;
+  Result := TRGB32Bitmap.Create(AWidth, AHeight);
+  try
+    StretchRGB32BitmapTrunc(Result, Self);
+    ReplaceWith(Result);
+  except
+    FreeAndNil(Result);
+  end;
+end;
+
+procedure TRGB32Bitmap.StretchSmooth(AWidth, AHeight: Integer; Method: TSmoothMethod);
+begin
+  StretchTrunc(AWidth,AHeight);
+end;
+
+procedure TRGB32Bitmap.Invert;
+begin
+  InvertRGB32Bitmap(Self);
+end;
+
+procedure TRGB32Bitmap.Grayscale;
+begin
+  GrayscaleRGB32Bitmap(Self);
+end;
+
+{ TRGB32Canvas }
+
+constructor TRGB32Canvas.Create(AOwner: TRGB32BitmapCore);
+begin
+  inherited Create;
+  
+  FOwner := AOwner;
+  FRandomDensity := MAXRANDOMDENSITY;
+  FFloodFillTolerance := 0;
+  FRectangleRoundness := 0;
+end;
+
+procedure TRGB32Canvas.SetColor(X, Y: Integer; Value: TColor);
+begin
+  FOwner.SetPixelInline(X, Y, ColorToRGB32Pixel(Value));
+end;
+
+function TRGB32Canvas.GetColor(X, Y: Integer): TColor;
+var
+  P: PRGB32Pixel;
+begin
+  P := FOwner.GetPixelPtrInline(X, Y);
+  if P <> nil then Result := RGB32PixelToColorInline(P^)
+  else Result := clNone;
+end;
+
+function TRGB32Canvas.GetFillColor: TColor;
+begin
+  Result := RGB32PixelToColorInline(FFillColor);
+end;
+
+function TRGB32Canvas.GetOutlineColor: TColor;
+begin
+  Result := RGB32PixelToColorInline(FOutlineColor);
+end;
+
+function TRGB32Canvas.GetPaperColor: TColor;
+begin
+  Result := RGB32PixelToColorInline(FPaperColor);
+end;
+
+procedure TRGB32Canvas.SetFillColor(const AValue: TColor);
+begin
+  FFillColor := ColorToRGB32PixelInline(AValue);
+end;
+
+procedure TRGB32Canvas.SetOutlineColor(const AValue: TColor);
+begin
+  FOutlineColor := ColorToRGB32PixelInline(AValue);
+end;
+
+procedure TRGB32Canvas.SetPaperColor(const AValue: TColor);
+begin
+  FPaperColor := ColorToRGB32PixelInline(AValue);
+end;
+
+function TRGB32Canvas.SamePixelUnsafe(X, Y: Integer; Value: TRGB32Pixel): Boolean;
+begin
+  Result := RGB32PixelDifferenceInline(FOwner.GetPixelPtrUnsafeInline(X, Y)^, Value)
+    <= FFloodFillTolerance;
+end;
+
+procedure TRGB32Canvas.DrawOutlinePixel(X, Y: Integer);
+begin
+  FOwner.SetPixelInline(X, Y, FOutlineColor);
+end;
+
+procedure TRGB32Canvas.DrawFillPixel(X, Y: Integer);
+begin
+  FOwner.SetPixelInline(X, Y, FFillColor);
+end;
+
+procedure TRGB32Canvas.DrawPaperPixel(X, Y: Integer);
+begin
+  FOwner.SetPixelInline(X, Y, FPaperColor);
+end;
+
+procedure TRGB32Canvas.DrawReplacePixel(X, Y: Integer);
+var
+  P: PRGB32Pixel;
+begin
+  P := FOwner.GetPixelPtrInline(X, Y);
+  if (P <> nil) and (P^ = FFillColor) then P^ := FPaperColor;
+end;
+
+procedure TRGB32Canvas.DrawRandomOutlinePixel(X, Y: Integer);
+begin
+  if Random(MAXRANDOMDENSITY) < FRandomDensity then
+    FOwner.SetPixelInline(X, Y, FOutlineColor);
+end;
+
+procedure TRGB32Canvas.DrawRandomFillPixel(X, Y: Integer);
+begin
+  if Random(MAXRANDOMDENSITY) < FRandomDensity then
+    FOwner.SetPixelInline(X, Y, FFillColor);
+end;
+
+procedure TRGB32Canvas.DrawRandomPaperPixel(X, Y: Integer);
+begin
+  if Random(MAXRANDOMDENSITY) < FRandomDensity then
+    FOwner.SetPixelInline(X, Y, FPaperColor);
+end;
+
+procedure TRGB32Canvas.DrawEmptyPixel(X, Y: Integer);
+begin
+  //
+end;
+
+function TRGB32Canvas.GetOutlineProcedure: TDrawPixelProcedure;
+begin
+  if not FRandomEnabled then
+  begin
+    case DrawMode of
+    dmOutlineAndFill, dmOutline:
+    begin
+      case EraseMode of
+      emNone: Result := @DrawOutlinePixel;
+      emErase: Result := @DrawPaperPixel;
+      emReplace: Result := @DrawReplacePixel;
+      end;
+    end;
+    else
+      Result := @DrawEmptyPixel;
+    end;
+  end
+  else
+  begin
+    case EraseMode of
+    emNone: Result := @DrawRandomFillPixel;
+    emErase: Result := @DrawRandomPaperPixel;
+    end;
+  end;
+end;
+
+function TRGB32Canvas.GetFillProcedure: TDrawPixelProcedure;
+begin
+  if not FRandomEnabled then
+  begin
+    case DrawMode of
+    dmOutlineAndFill, dmFill:
+    begin
+      case EraseMode of
+      emNone: Result := @DrawFillPixel;
+      emErase: Result := @DrawPaperPixel;
+      emReplace: Result := @DrawReplacePixel;
+      end;
+    end;
+    else
+      Result := @DrawEmptyPixel;
+    end;
+  end
+  else
+  begin
+    case EraseMode of
+    emNone: Result := @DrawRandomFillPixel;
+    emErase: Result := @DrawRandomPaperPixel;
+    end;
+  end;
+end;
+
+procedure TRGB32Canvas.Fill(Color: TColor);
+var
+  P: TRGB32Pixel;
+begin
+  P := ColorToRGB32Pixel(Color);
+  FillDWORD(FOwner.Pixels^, FOwner.Height * FOwner.RowPixelStride, P);
+end;
+
+procedure TRGB32Canvas.FillRect(X1, Y1, X2, Y2: Integer);
+begin
+  FillPixelRect(X1, Y1, X2, Y2, GetFillProcedure);
+end;
+
+procedure TRGB32Canvas.Line(X1, Y1, X2, Y2: Integer);
+begin
+  LineBresenham(X1, Y1, X2, Y2, GetOutlineProcedure);
+end;
+
+procedure TRGB32Canvas.Rectangle(X1, Y1, X2, Y2: Integer);
+var
+  R1, R2: Integer;
+begin
+  R1 := Max(0, Succ(Abs(X2 - X1)) - RectangleRoundness);
+  R2 := Max(0, Succ(Abs(Y2 - Y1)) - RectangleRoundness);
+  EllipticRectangle(X1, Y1, X2, Y2, R1, R2, GetOutlineProcedure, GetFillProcedure);
+end;
+
+procedure TRGB32Canvas.Ellipse(X1, Y1, X2, Y2: Integer);
+begin
+  EllipticRectangle(X1, Y1, X2, Y2, 0, 0, GetOutlineProcedure, GetFillProcedure);
+end;
+
+procedure TRGB32Canvas.FloodFill(X, Y: Integer);
+begin
+  case EraseMode of
+  emNone: FloodFillScanLine(X, Y, FOwner.Width, FOwner.Height, @FOwner.GetPixelUnsafe,
+    @SamePixelUnsafe, @DrawFillPixel);
+  emErase: FloodFillScanLine(X, Y, FOwner.Width, FOwner.Height, @FOwner.GetPixelUnsafe,
+    @SamePixelUnsafe, @DrawPaperPixel);
+  end;
+end;
+
+procedure TRGB32Canvas.DrawTo(ACanvas: TCanvas; X, Y: Integer);
+begin
+  if ACanvas <> nil then
+    with FOwner do
+      DrawRGB32Bitmap(ACanvas.Handle, X, Y, 0, 0, Width, Height, FOwner);
+end;
+
+procedure TRGB32Canvas.StretchDrawTo(ACanvas: TCanvas; DstX, DstY, DstWidth,
+  DstHeight: Integer);
+begin
+  if ACanvas <> nil then
+    with FOwner do
+      StretchDrawRGB32Bitmap(ACanvas.Handle, DstX, DstY, DstWidth, DstHeight,
+        0, 0, Width, Height, FOwner);
+end;
+
+end.
+

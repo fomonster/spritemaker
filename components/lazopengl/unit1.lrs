@@ -1,0 +1,30 @@
+{ This is an automatically generated lazarus resource file }
+
+LazarusResources.Add('TForm1','FORMDATA',[
+  'TPF0'#6'TForm1'#5'Form1'#4'Left'#3'H'#1#6'Height'#3'?'#1#3'Top'#3'7'#1#5'Wid'
+  +'th'#3'h'#2#18'HorzScrollBar.Page'#3'g'#2#18'VertScrollBar.Page'#3'>'#1#13'A'
+  +'ctiveControl'#7#7'Button1'#7'Caption'#6#5'Form1'#12'ClientHeight'#3'?'#1#11
+  +'ClientWidth'#3'h'#2#0#9'TGroupBox'#9'GroupBox1'#4'Left'#2#8#6'Height'#3'/'#1
+  +#3'Top'#2#8#5'Width'#3#186#1#5'Align'#7#8'alClient'#18'BorderSpacing.Left'#2
+  +#8#17'BorderSpacing.Top'#2#8#20'BorderSpacing.Bottom'#2#8#7'Caption'#6#11'Op'
+  +'enGL View'#12'ClientHeight'#3#29#1#11'ClientWidth'#3#182#1#8'TabOrder'#2#0#0
+  +#6'TPanel'#6'Panel1'#4'Left'#2#8#6'Height'#3#21#1#5'Width'#3#166#1#5'Align'#7
+  +#8'alClient'#18'BorderSpacing.Left'#2#8#19'BorderSpacing.Right'#2#8#20'Borde'
+  +'rSpacing.Bottom'#2#8#10'BevelOuter'#7#9'bvLowered'#12'ClientHeight'#3#21#1
+  +#11'ClientWidth'#3#166#1#8'TabOrder'#2#0#0#6'TPanel'#6'Panel2'#4'Left'#2#1#6
+  +'Height'#3#19#1#3'Top'#2#1#5'Width'#3#164#1#5'Align'#7#8'alClient'#10'BevelO'
+  +'uter'#7#6'bvNone'#7'Caption'#6#6'Panel2'#12'ClientHeight'#3#19#1#11'ClientW'
+  +'idth'#3#164#1#8'TabOrder'#2#0#0#10'TOpenGLBox'#10'OpenGLBox1'#6'Height'#3#19
+  +#1#5'Width'#3#164#1#5'Align'#7#8'alClient'#7'RedBits'#2#0#9'GreenBits'#2#0#8
+  +'BlueBits'#2#0#9'DepthBits'#2#0#0#0#0#0#0#9'TGroupBox'#9'GroupBox2'#4'Left'#3
+  +#199#1#6'Height'#3'/'#1#3'Top'#2#8#5'Width'#3#153#0#5'Align'#7#7'alRight'#17
+  +'BorderSpacing.Top'#2#8#19'BorderSpacing.Right'#2#8#20'BorderSpacing.Bottom'
+  +#2#8#7'Caption'#6#8'Controls'#12'ClientHeight'#3#29#1#11'ClientWidth'#3#149#0
+  +#8'TabOrder'#2#1#0#7'TButton'#7'Button1'#4'Left'#2#8#6'Height'#2#25#3'Top'#3
+  +#252#0#5'Width'#3#133#0#5'Align'#7#8'alBottom'#20'BorderSpacing.Around'#2#8
+  +#25'BorderSpacing.InnerBorder'#2#4#7'Caption'#6#4'Quit'#7'OnClick'#7#12'Butt'
+  +'on1Click'#8'TabOrder'#2#0#0#0#0#9'TSplitter'#9'Splitter1'#4'Left'#3#194#1#6
+  +'Height'#3'?'#1#5'Width'#2#5#5'Align'#7#7'alRight'#12'ResizeAnchor'#7#7'akRi'
+  +'ght'#0#0#6'TTimer'#6'Timer1'#8'Interval'#2#1#7'OnTimer'#7#11'Timer1Timer'#4
+  +'left'#2' '#3'top'#2#24#0#0#0
+]);

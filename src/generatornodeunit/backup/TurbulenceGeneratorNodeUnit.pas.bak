@@ -1,0 +1,70 @@
+unit TurbulenceGeneratorNodeUnit;
+
+{$mode objfpc}{$H+}
+
+interface
+
+uses
+  Classes, SysUtils, GeneratorNodeUnit, RichView, RVStyle, SimSpin, SSXMLUnit;
+
+type
+
+TTurbulenceGeneratorNodeUnit=class(TGeneratorNodeUnit)
+
+  Width,Height,Iterations,RootSeed:Integer;
+
+  constructor Create;override;
+  destructor Destroy;override;
+
+  procedure Generate;override;
+  procedure RenderTexture(_sizex,_sizey:Integer);override;
+
+end;
+
+implementation
+
+  Uses GeneratorTreeUnit,SSConstantsUnit, SSTextureGeneratorUnit, ConstantsUnit;
+
+constructor TTurbulenceGeneratorNodeUnit.Create;
+begin
+  inherited;
+  Width:=8;
+  Height:=8;
+  RootSeed:=0;
+  Iterations:=0;
+  AddParam_Int('Width',1,1000,@Width);
+  AddParam_Int('Height',1,1000,@Height);
+  AddParam_Int('Iterations',0,12,@Iterations);
+  AddParam_Int('RootSeed',0,1000,@RootSeed);
+end;
+
+destructor TTurbulenceGeneratorNodeUnit.Destroy;
+begin
+  inherited;
+
+end;
+
+procedure TTurbulenceGeneratorNodeUnit.Generate;
+  var
+    Node:TGeneratorNode;
+begin
+  Node:=TGeneratorNode(GeneratorNodePtr);
+  Node.TextureGenerator.Generate_Turbulence(RootSeed,Width,Height,Iterations);
+  Node.TextureGenerator.Transparency_FillAlpha(1);
+end;
+
+procedure TTurbulenceGeneratorNodeUnit.RenderTexture(_sizex,_sizey:Integer);
+  var
+    Node:TGeneratorNode;
+begin
+  Node:=TGeneratorNode(GeneratorNodePtr);
+  if Node.TextureRenderer<>nil then Node.TextureRenderer.Destroy;
+  Node.TextureRenderer:=TTextureGenerator.Create;
+  Node.TextureRenderer.Width := _sizex;
+  Node.TextureRenderer.Height := _sizey;
+  Node.TextureRenderer.Generate_Turbulence(RootSeed,Width,Height,Iterations);
+  Node.TextureRenderer.Transparency_FillAlpha(1);
+end;
+
+end.
+

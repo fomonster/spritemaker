@@ -1,0 +1,1211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectOptions>
+    <Version Value="11"/>
+    <PathDelim Value="\"/>
+    <General>
+      <MainUnit Value="0"/>
+      <Title Value="SpriteMaker - spritepacker.com"/>
+      <Scaled Value="True"/>
+      <UseAppBundle Value="False"/>
+      <UseXPManifest Value="True"/>
+      <Icon Value="0"/>
+    </General>
+    <VersionInfo>
+      <Language Value=""/>
+      <CharSet Value=""/>
+    </VersionInfo>
+    <BuildModes Count="1">
+      <Item1 Name="default" Default="True"/>
+    </BuildModes>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes Count="1">
+        <Mode0 Name="default">
+          <local>
+            <LaunchingApplication PathPlusParams="/usr/X11R6/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
+          </local>
+        </Mode0>
+      </Modes>
+    </RunParams>
+    <RequiredPackages Count="5">
+      <Item1>
+        <PackageName Value="LCLBase"/>
+        <MinVersion Major="1" Release="1" Valid="True"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="lazgradient"/>
+        <MinVersion Major="1" Minor="1" Valid="True"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="FCL"/>
+        <MinVersion Major="1" Valid="True"/>
+      </Item3>
+      <Item4>
+        <PackageName Value="lazrichview"/>
+        <MinVersion Minor="5" Release="2" Build="2" Valid="True"/>
+      </Item4>
+      <Item5>
+        <PackageName Value="LCL"/>
+      </Item5>
+    </RequiredPackages>
+    <Units Count="131">
+      <Unit0>
+        <Filename Value="TextureMaker.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <CursorPos Y="15"/>
+        <UsageCount Value="200"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="MainFormUnit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="MainForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="134"/>
+        <CursorPos X="159" Y="1244"/>
+        <UsageCount Value="200"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="Unit.pas"/>
+        <CursorPos X="6"/>
+        <UsageCount Value="191"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="ConstantsUnit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="21" Y="20"/>
+        <UsageCount Value="200"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="GeneratorTreeUnit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="624"/>
+        <CursorPos X="164" Y="635"/>
+        <UsageCount Value="200"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="SSTextureGeneratorUnit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1477"/>
+        <CursorPos X="17" Y="1492"/>
+        <UsageCount Value="200"/>
+        <Bookmarks Count="2">
+          <Item0 ID="9"/>
+          <Item1 X="9" Y="1671" ID="1"/>
+        </Bookmarks>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="NoiseUnit.pas"/>
+        <CursorPos X="52" Y="178"/>
+        <UsageCount Value="193"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="Vector.pas"/>
+        <TopLine Value="710"/>
+        <CursorPos X="16" Y="658"/>
+        <UsageCount Value="192"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="Color.pas"/>
+        <TopLine Value="91"/>
+        <CursorPos X="68" Y="106"/>
+        <UsageCount Value="191"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="C:\lazarus\lcl\graphics.pp"/>
+        <UnitName Value="Graphics"/>
+        <TopLine Value="800"/>
+        <CursorPos X="29" Y="819"/>
+        <UsageCount Value="65"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="C:\lazarus\fpc\2.2.5\source\packages\fcl-image\src\fpcanvas.pp"/>
+        <UnitName Value="FPCanvas"/>
+        <TopLine Value="122"/>
+        <CursorPos X="73" Y="135"/>
+        <UsageCount Value="10"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="simspin.pas"/>
+        <UnitName Value="SimSpin"/>
+        <TopLine Value="250"/>
+        <CursorPos X="21" Y="263"/>
+        <UsageCount Value="77"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="simbutton.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="SimButton"/>
+        <TopLine Value="635"/>
+        <CursorPos X="3" Y="669"/>
+        <UsageCount Value="201"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="PropertiesPageUnit.pas"/>
+        <TopLine Value="351"/>
+        <CursorPos X="61" Y="26"/>
+        <UsageCount Value="95"/>
+        <Bookmarks Count="1">
+          <Item0 X="7" Y="153" ID="2"/>
+        </Bookmarks>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="C:\lazarus\lcl\comctrls.pp"/>
+        <UnitName Value="ComCtrls"/>
+        <TopLine Value="1685"/>
+        <CursorPos X="32" Y="1705"/>
+        <UsageCount Value="2"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="LazRGBGraphics\rgbtypes.pas"/>
+        <UnitName Value="RGBTypes"/>
+        <TopLine Value="17"/>
+        <CursorPos X="29" Y="36"/>
+        <UsageCount Value="4"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="SSConstantsUnit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="153"/>
+        <CursorPos X="24" Y="169"/>
+        <UsageCount Value="201"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="C:\lazarus\components\lazrichview\richview.pas"/>
+        <UnitName Value="RichView"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="27"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="NoiseGeneratorNodeUnit.pas"/>
+        <TopLine Value="80"/>
+        <CursorPos X="38" Y="96"/>
+        <UsageCount Value="168"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="GeneratorNodeUnit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <TopLine Value="123"/>
+        <CursorPos X="40" Y="139"/>
+        <UsageCount Value="200"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="BricksGeneratorNodeUnit.pas"/>
+        <TopLine Value="98"/>
+        <CursorPos X="40" Y="127"/>
+        <UsageCount Value="117"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="ZCircleGeneratorNodeUnit.pas"/>
+        <TopLine Value="103"/>
+        <CursorPos X="52" Y="120"/>
+        <UsageCount Value="117"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="WoodRingsGeneratorNodeUnit.pas"/>
+        <TopLine Value="96"/>
+        <CursorPos X="40" Y="125"/>
+        <UsageCount Value="117"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="CellsGeneratorNodeUnit.pas"/>
+        <TopLine Value="89"/>
+        <CursorPos X="40" Y="118"/>
+        <UsageCount Value="117"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="CloudsGeneratorNodeUnit.pas"/>
+        <TopLine Value="95"/>
+        <CursorPos X="40" Y="124"/>
+        <UsageCount Value="117"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="ChangeHSBGeneratorNodeUnit.pas"/>
+        <TopLine Value="69"/>
+        <CursorPos X="42" Y="100"/>
+        <UsageCount Value="117"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="GaussianBlurGeneratorNodeUnit.pas"/>
+        <TopLine Value="55"/>
+        <CursorPos X="42" Y="86"/>
+        <UsageCount Value="117"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit26>
+      <Unit27>
+        <Filename Value="CombineGeneratorNodeUnit.pas"/>
+        <TopLine Value="46"/>
+        <CursorPos X="23" Y="11"/>
+        <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit27>
+      <Unit28>
+        <Filename Value="AlphaMaskGeneratorNodeUnit.pas"/>
+        <TopLine Value="59"/>
+        <CursorPos X="42" Y="93"/>
+        <UsageCount Value="117"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit28>
+      <Unit29>
+        <Filename Value="MakeAlphaGeneratorNodeUnit.pas"/>
+        <TopLine Value="56"/>
+        <CursorPos X="42" Y="88"/>
+        <UsageCount Value="117"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit29>
+      <Unit30>
+        <Filename Value="GradientGeneratorNodeUnit.pas"/>
+        <TopLine Value="74"/>
+        <CursorPos X="40" Y="103"/>
+        <UsageCount Value="117"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit30>
+      <Unit31>
+        <Filename Value="RotateGeneratorNodeUnit.pas"/>
+        <TopLine Value="54"/>
+        <CursorPos X="42" Y="85"/>
+        <UsageCount Value="117"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit31>
+      <Unit32>
+        <Filename Value="FractalizeGeneratorNodeUnit.pas"/>
+        <TopLine Value="62"/>
+        <CursorPos X="42" Y="93"/>
+        <UsageCount Value="117"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit32>
+      <Unit33>
+        <Filename Value="MoveGeneratorNodeUnit.pas"/>
+        <TopLine Value="63"/>
+        <CursorPos X="42" Y="94"/>
+        <UsageCount Value="117"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit33>
+      <Unit34>
+        <Filename Value="SolidColorGeneratorNodeUnit.pas"/>
+        <TopLine Value="53"/>
+        <CursorPos X="40" Y="82"/>
+        <UsageCount Value="142"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit34>
+      <Unit35>
+        <Filename Value="ColorSelectionFormUnit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="ColorSelectionForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="120"/>
+        <CursorPos X="39" Y="150"/>
+        <UsageCount Value="200"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit35>
+      <Unit36>
+        <Filename Value="C:\lazarus\lcl\lcltype.pp"/>
+        <UnitName Value="LCLType"/>
+        <TopLine Value="2372"/>
+        <CursorPos X="17" Y="2382"/>
+        <UsageCount Value="4"/>
+      </Unit36>
+      <Unit37>
+        <Filename Value="LazRGBGraphics\rgbgraphics.pas"/>
+        <UnitName Value="RGBGraphics"/>
+        <TopLine Value="20"/>
+        <CursorPos X="3" Y="40"/>
+        <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit37>
+      <Unit38>
+        <Filename Value="EnumFolder.pas"/>
+        <IsPartOfProject Value="True"/>
+        <TopLine Value="55"/>
+        <CursorPos X="26" Y="17"/>
+        <UsageCount Value="201"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit38>
+      <Unit39>
+        <Filename Value="SSXMLUnit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <TopLine Value="648"/>
+        <CursorPos X="33" Y="651"/>
+        <UsageCount Value="201"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit39>
+      <Unit40>
+        <Filename Value="ColorGradientGeneratorNodeUnit.pas"/>
+        <TopLine Value="126"/>
+        <CursorPos X="42" Y="147"/>
+        <UsageCount Value="116"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit40>
+      <Unit41>
+        <Filename Value="RenderFormUnit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="RenderForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="256"/>
+        <CursorPos X="59" Y="277"/>
+        <UsageCount Value="200"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit41>
+      <Unit42>
+        <Filename Value="SSGenericListUnit.pas"/>
+        <TopLine Value="17"/>
+        <CursorPos X="43" Y="33"/>
+        <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit42>
+      <Unit43>
+        <Filename Value="RenderOptionsFormUnit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="RenderOptionsForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="36"/>
+        <CursorPos X="37" Y="44"/>
+        <UsageCount Value="200"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit43>
+      <Unit44>
+        <Filename Value="C:\lazarus\fpc\2.2.5\source\rtl\win\wininc\struct.inc"/>
+        <TopLine Value="238"/>
+        <CursorPos X="6" Y="258"/>
+        <UsageCount Value="4"/>
+      </Unit44>
+      <Unit45>
+        <Filename Value="C:\lazarus\lcl\graphtype.pp"/>
+        <UnitName Value="GraphType"/>
+        <TopLine Value="711"/>
+        <CursorPos X="59" Y="721"/>
+        <UsageCount Value="9"/>
+      </Unit45>
+      <Unit46>
+        <Filename Value="C:\lazarus\fpc\2.2.5\source\packages\fcl-image\src\fpwritejpeg.pas"/>
+        <UnitName Value="FPWriteJPEG"/>
+        <TopLine Value="10"/>
+        <CursorPos X="3" Y="30"/>
+        <UsageCount Value="4"/>
+      </Unit46>
+      <Unit47>
+        <Filename Value="C:\lazarus\lcl\clipbrd.pp"/>
+        <UnitName Value="Clipbrd"/>
+        <TopLine Value="268"/>
+        <CursorPos X="46" Y="307"/>
+        <UsageCount Value="4"/>
+      </Unit47>
+      <Unit48>
+        <Filename Value="generatornodeunit\SolidColorGeneratorNodeUnit.pas"/>
+        <CursorPos X="71" Y="8"/>
+        <UsageCount Value="1"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit48>
+      <Unit49>
+        <Filename Value="generatornodeunit\WavesGeneratorNodeUnit.pas"/>
+        <CursorPos Y="63"/>
+        <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit49>
+      <Unit50>
+        <Filename Value="generatornodeunit\ColorGradientGeneratorNodeUnit.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="182"/>
+        <CursorPos X="74" Y="192"/>
+        <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit50>
+      <Unit51>
+        <Filename Value="generatornodeunit\NoiseGeneratorNodeUnit.pas"/>
+        <CursorPos X="33" Y="46"/>
+        <UsageCount Value="23"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit51>
+      <Unit52>
+        <Filename Value="generatornodeunit\ZCircleGeneratorNodeUnit.pas"/>
+        <TopLine Value="24"/>
+        <CursorPos X="38" Y="39"/>
+        <UsageCount Value="4"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit52>
+      <Unit53>
+        <Filename Value="generatornodeunit\BlendGeneratorNodeUnit.pas"/>
+        <TopLine Value="13"/>
+        <CursorPos X="24" Y="33"/>
+        <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit53>
+      <Unit54>
+        <Filename Value="generatornodeunit\TwistGeneratorNodeUnit.pas"/>
+        <TopLine Value="19"/>
+        <CursorPos X="30" Y="30"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit54>
+      <Unit55>
+        <Filename Value="C:\lazarus\components\lazrichview\DistortGeneratorNodeUnit.pas"/>
+        <CursorPos X="27" Y="18"/>
+        <UsageCount Value="1"/>
+      </Unit55>
+      <Unit56>
+        <Filename Value="AboutFormUnit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="AboutForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="96"/>
+        <CursorPos X="16" Y="135"/>
+        <UsageCount Value="200"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit56>
+      <Unit57>
+        <Filename Value="ProtectionUnit.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="289"/>
+        <CursorPos X="13" Y="314"/>
+        <UsageCount Value="21"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit57>
+      <Unit58>
+        <Filename Value="md5.pas"/>
+        <CursorPos X="130" Y="83"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit58>
+      <Unit59>
+        <Filename Value="C:\lazarus\fpc\2.2.5\source\rtl\objpas\sysutils\filutilh.inc"/>
+        <TopLine Value="31"/>
+        <CursorPos X="10" Y="61"/>
+        <UsageCount Value="5"/>
+      </Unit59>
+      <Unit60>
+        <Filename Value="C:\lazarus\fpc\2.2.5\source\packages\fcl-registry\src\regdef.inc"/>
+        <TopLine Value="17"/>
+        <CursorPos X="3" Y="29"/>
+        <UsageCount Value="10"/>
+      </Unit60>
+      <Unit61>
+        <Filename Value="C:\lazarus\fpc\2.2.5\source\packages\fcl-registry\src\registry.pp"/>
+        <TopLine Value="63"/>
+        <CursorPos X="14" Y="83"/>
+        <UsageCount Value="10"/>
+      </Unit61>
+      <Unit62>
+        <Filename Value="generatornodeunit\ColorizeGeneratorNodeUnit.pas"/>
+        <TopLine Value="6"/>
+        <CursorPos X="82" Y="8"/>
+        <UsageCount Value="39"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit62>
+      <Unit63>
+        <Filename Value="generatornodeunit\TurbulenceGeneratorNodeUnit.pas"/>
+        <TopLine Value="7"/>
+        <CursorPos X="41" Y="36"/>
+        <UsageCount Value="32"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit63>
+      <Unit64>
+        <Filename Value="generatornodeunit\CloudsGeneratorNodeUnit.pas"/>
+        <TopLine Value="22"/>
+        <CursorPos Y="40"/>
+        <UsageCount Value="16"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit64>
+      <Unit65>
+        <Filename Value="generatornodeunit\CellsGeneratorNodeUnit.pas"/>
+        <TopLine Value="26"/>
+        <CursorPos X="34" Y="45"/>
+        <UsageCount Value="15"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit65>
+      <Unit66>
+        <Filename Value="generatornodeunit\DistortGeneratorNodeUnit.pas"/>
+        <TopLine Value="25"/>
+        <CursorPos X="46" Y="35"/>
+        <UsageCount Value="1"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit66>
+      <Unit67>
+        <Filename Value="generatornodeunit\GradientGeneratorNodeUnit.pas"/>
+        <CursorPos X="25" Y="48"/>
+        <UsageCount Value="20"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit67>
+      <Unit68>
+        <Filename Value="generatornodeunit\LightingGeneratorNodeUnit.pas"/>
+        <TopLine Value="20"/>
+        <CursorPos X="35" Y="41"/>
+        <UsageCount Value="16"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit68>
+      <Unit69>
+        <Filename Value="generatornodeunit\ReliefLightingGeneratorNodeUnit.pas"/>
+        <TopLine Value="21"/>
+        <CursorPos X="19" Y="42"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit69>
+      <Unit70>
+        <Filename Value="generatornodeunit\NormalMapGeneratorNodeUnit.pas"/>
+        <TopLine Value="15"/>
+        <CursorPos X="55" Y="34"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit70>
+      <Unit71>
+        <Filename Value="C:\lazarus\lcl\dialogs.pp"/>
+        <UnitName Value="Dialogs"/>
+        <TopLine Value="7"/>
+        <CursorPos X="77" Y="32"/>
+        <UsageCount Value="5"/>
+      </Unit71>
+      <Unit72>
+        <Filename Value="C:\lazarus\lcl\controls.pp"/>
+        <UnitName Value="Controls"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1307"/>
+        <CursorPos X="15" Y="1319"/>
+        <UsageCount Value="8"/>
+      </Unit72>
+      <Unit73>
+        <Filename Value="C:\lazarus\lcl\include\commondialog.inc"/>
+        <UsageCount Value="1"/>
+      </Unit73>
+      <Unit74>
+        <Filename Value="C:\lazarus\lcl\include\colordialog.inc"/>
+        <UsageCount Value="1"/>
+      </Unit74>
+      <Unit75>
+        <Filename Value="C:\lazarus\lcl\include\inputdialog.inc"/>
+        <TopLine Value="63"/>
+        <CursorPos X="5" Y="99"/>
+        <UsageCount Value="1"/>
+      </Unit75>
+      <Unit76>
+        <Filename Value="generatornodeunit\MoveGeneratorNodeUnit.pas"/>
+        <TopLine Value="44"/>
+        <CursorPos X="146" Y="64"/>
+        <UsageCount Value="1"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit76>
+      <Unit77>
+        <Filename Value="AboutFormUnit.lrs"/>
+        <UsageCount Value="1"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit77>
+      <Unit78>
+        <Filename Value="bin\ColorSelectionFormUnit.lrs"/>
+        <UsageCount Value="1"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit78>
+      <Unit79>
+        <Filename Value="bin\MainFormUnit.lrs"/>
+        <UsageCount Value="1"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit79>
+      <Unit80>
+        <Filename Value="bin\RenderOptionsFormUnit.lrs"/>
+        <UsageCount Value="1"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit80>
+      <Unit81>
+        <Filename Value="SSVector.pas"/>
+        <IsPartOfProject Value="True"/>
+        <CursorPos X="99" Y="4"/>
+        <UsageCount Value="111"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit81>
+      <Unit82>
+        <Filename Value="C:\lazarus\fpc\2.4.3\source\rtl\win\wininc\base.inc"/>
+        <TopLine Value="85"/>
+        <CursorPos X="6" Y="104"/>
+        <UsageCount Value="6"/>
+      </Unit82>
+      <Unit83>
+        <Filename Value="C:\lazarus\lcl\intfgraphics.pas"/>
+        <UnitName Value="IntfGraphics"/>
+        <TopLine Value="218"/>
+        <CursorPos X="17" Y="237"/>
+        <UsageCount Value="8"/>
+      </Unit83>
+      <Unit84>
+        <Filename Value="C:\lazarus\fpc\2.4.3\source\packages\fcl-image\src\fpimage.pp"/>
+        <UnitName Value="FPimage"/>
+        <TopLine Value="11"/>
+        <CursorPos Y="30"/>
+        <UsageCount Value="9"/>
+      </Unit84>
+      <Unit85>
+        <Filename Value="C:\lazarus\lcl\include\rasterimage.inc"/>
+        <TopLine Value="578"/>
+        <CursorPos X="40" Y="579"/>
+        <UsageCount Value="4"/>
+      </Unit85>
+      <Unit86>
+        <Filename Value="C:\lazarus\fpc\2.4.3\source\rtl\objpas\classes\classesh.inc"/>
+        <TopLine Value="101"/>
+        <CursorPos X="3" Y="120"/>
+        <UsageCount Value="6"/>
+      </Unit86>
+      <Unit87>
+        <Filename Value="C:\lazarus\fpc\2.4.3\source\rtl\inc\systemh.inc"/>
+        <TopLine Value="241"/>
+        <CursorPos X="3" Y="260"/>
+        <UsageCount Value="4"/>
+      </Unit87>
+      <Unit88>
+        <Filename Value="C:\lazarus\lcl\include\picture.inc"/>
+        <TopLine Value="423"/>
+        <CursorPos X="10" Y="450"/>
+        <UsageCount Value="3"/>
+      </Unit88>
+      <Unit89>
+        <Filename Value="C:\lazarus\lcl\include\png.inc"/>
+        <TopLine Value="35"/>
+        <UsageCount Value="6"/>
+      </Unit89>
+      <Unit90>
+        <Filename Value="C:\lazarus\fpc\2.4.3\source\packages\fcl-image\src\fpwritepng.pp"/>
+        <UnitName Value="FPWritePNG"/>
+        <CursorPos X="60" Y="20"/>
+        <UsageCount Value="5"/>
+        <Bookmarks Count="1">
+          <Item0 X="25" Y="401" ID="2"/>
+        </Bookmarks>
+      </Unit90>
+      <Unit91>
+        <Filename Value="C:\lazarus\fpc\2.4.3\source\rtl\inc\objpash.inc"/>
+        <TopLine Value="161"/>
+        <CursorPos X="8" Y="180"/>
+        <UsageCount Value="3"/>
+      </Unit91>
+      <Unit92>
+        <Filename Value="C:\lazarus\fpc\2.4.3\source\packages\fcl-image\src\fpcanvas.pp"/>
+        <UnitName Value="FPCanvas"/>
+        <TopLine Value="115"/>
+        <CursorPos X="36" Y="134"/>
+        <UsageCount Value="6"/>
+      </Unit92>
+      <Unit93>
+        <Filename Value="ssfpwritepng.pas"/>
+        <UnitName Value="ssFPWritePNG"/>
+        <TopLine Value="409"/>
+        <CursorPos X="13" Y="407"/>
+        <UsageCount Value="6"/>
+        <Bookmarks Count="1">
+          <Item0 X="26" Y="402" ID="2"/>
+        </Bookmarks>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit93>
+      <Unit94>
+        <Filename Value="tools\SSNodesView.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="66" Y="9"/>
+        <UsageCount Value="33"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit94>
+      <Unit95>
+        <Filename Value="tools\SSNodesViewScroll.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="26"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit95>
+      <Unit96>
+        <Filename Value="C:\lazarus\components\lazrichview\rvlazintf.pas"/>
+        <UnitName Value="RVLazIntf"/>
+        <CursorPos X="3" Y="16"/>
+        <UsageCount Value="11"/>
+      </Unit96>
+      <Unit97>
+        <Filename Value="tools\SimTrackBar.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="37" Y="122"/>
+        <UsageCount Value="68"/>
+        <Bookmarks Count="1">
+          <Item0 X="32" Y="305" ID="2"/>
+        </Bookmarks>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit97>
+      <Unit98>
+        <Filename Value="tools\SimSpin.pas"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="196"/>
+        <CursorPos X="10" Y="215"/>
+        <UsageCount Value="12"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit98>
+      <Unit99>
+        <Filename Value="tools\SimButton.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="44" Y="15"/>
+        <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit99>
+      <Unit100>
+        <Filename Value="generatornodeunit\WoodRingsGeneratorNodeUnit.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="16"/>
+        <CursorPos X="32" Y="37"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit100>
+      <Unit101>
+        <Filename Value="C:\lazarus\lcl\forms.pp"/>
+        <UnitName Value="Forms"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="599"/>
+        <CursorPos X="19" Y="611"/>
+        <UsageCount Value="7"/>
+      </Unit101>
+      <Unit102>
+        <Filename Value="units\SSPictureView.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="27"/>
+        <CursorPos X="65" Y="44"/>
+        <UsageCount Value="53"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit102>
+      <Unit103>
+        <Filename Value="units\SSPictureViewScroll.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="26" Y="6"/>
+        <UsageCount Value="53"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit103>
+      <Unit104>
+        <Filename Value="units\SSPictureUnit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="475"/>
+        <CursorPos X="171" Y="499"/>
+        <UsageCount Value="53"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit104>
+      <Unit105>
+        <Filename Value="units\SSGenericListUnit.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="14" Y="13"/>
+        <UsageCount Value="18"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit105>
+      <Unit106>
+        <Filename Value="C:\lazarus\ide\lazarus.pp"/>
+        <UnitName Value="Lazarus"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="8"/>
+      </Unit106>
+      <Unit107>
+        <Filename Value="C:\lazarus\ide\main.pp"/>
+        <UnitName Value="Main"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="12082"/>
+        <CursorPos X="14" Y="12090"/>
+        <UsageCount Value="8"/>
+      </Unit107>
+      <Unit108>
+        <Filename Value="tools\rgbgraphics.pas"/>
+        <UnitName Value="RGBGraphics"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="66"/>
+        <CursorPos X="35" Y="83"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit108>
+      <Unit109>
+        <Filename Value="tools\SSGenericListUnit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="28"/>
+        <CursorPos X="23" Y="36"/>
+        <UsageCount Value="53"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit109>
+      <Unit110>
+        <Filename Value="C:\lazarus\lcl\lmessages.pp"/>
+        <UnitName Value="LMessages"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="709"/>
+        <CursorPos X="5" Y="720"/>
+        <UsageCount Value="8"/>
+      </Unit110>
+      <Unit111>
+        <Filename Value="generatornodeunit\RotateGeneratorNodeUnit.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="14"/>
+        <CursorPos X="27" Y="25"/>
+        <UsageCount Value="21"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit111>
+      <Unit112>
+        <Filename Value="..\components\lazrichview\RVStyle.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="6" Y="4"/>
+        <UsageCount Value="20"/>
+      </Unit112>
+      <Unit113>
+        <Filename Value="..\components\lazrichview\PtblRV.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="243"/>
+        <CursorPos X="21" Y="260"/>
+        <UsageCount Value="20"/>
+      </Unit113>
+      <Unit114>
+        <Filename Value="tools\SSXMLUnit.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="38"/>
+        <CursorPos X="100" Y="44"/>
+        <UsageCount Value="11"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit114>
+      <Unit115>
+        <Filename Value="tools\rgbroutines.pas"/>
+        <UnitName Value="RGBRoutines"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="27"/>
+        <CursorPos X="72" Y="39"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit115>
+      <Unit116>
+        <Filename Value="tools\rgbutils.pas"/>
+        <UnitName Value="RGBUtils"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="43"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit116>
+      <Unit117>
+        <Filename Value="..\components\LazRGBGraphics\rgbroutines.pas"/>
+        <UnitName Value="RGBRoutines"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="11"/>
+        <CursorPos X="36" Y="47"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit117>
+      <Unit118>
+        <Filename Value="tools\DXTC.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit118>
+      <Unit119>
+        <Filename Value="SSNoiseUnit.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="92"/>
+        <CursorPos X="3" Y="124"/>
+        <UsageCount Value="11"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit119>
+      <Unit120>
+        <Filename Value="..\components\LazRGBGraphics\lazrgbgraphics.pas"/>
+        <UnitName Value="LazRGBGraphics"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="21" Y="5"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit120>
+      <Unit121>
+        <Filename Value="C:\Users\fomonster\AppData\Local\lazarus\onlinepackagemanager\packages\RGBGraphics\source\rgbgraphics.pas"/>
+        <UnitName Value="RGBGraphics"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="6"/>
+        <CursorPos X="45" Y="25"/>
+        <UsageCount Value="11"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit121>
+      <Unit122>
+        <Filename Value="C:\Users\fomonster\AppData\Local\lazarus\onlinepackagemanager\packages\RGBGraphics\source\rgbutils.pas"/>
+        <UnitName Value="RGBUtils"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="36" Y="21"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit122>
+      <Unit123>
+        <Filename Value="..\components\rgb_graphics\rgbtypes.pas"/>
+        <UnitName Value="RGBTypes"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="87"/>
+        <CursorPos X="14" Y="105"/>
+        <UsageCount Value="11"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit123>
+      <Unit124>
+        <Filename Value="..\components\rgb_graphics\rgbutils.pas"/>
+        <UnitName Value="RGBUtils"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos Y="86"/>
+        <UsageCount Value="11"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit124>
+      <Unit125>
+        <Filename Value="..\components\rgb_graphics\rgbroutines.pas"/>
+        <UnitName Value="RGBRoutines"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="414"/>
+        <CursorPos Y="437"/>
+        <UsageCount Value="11"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit125>
+      <Unit126>
+        <Filename Value="..\components\rgb_graphics\rgbgraphics.pas"/>
+        <UnitName Value="RGBGraphics"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="202"/>
+        <CursorPos X="15" Y="220"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit126>
+      <Unit127>
+        <Filename Value="C:\lazarus\fpc\3.2.0\source\rtl\inc\objpash.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="187"/>
+        <CursorPos X="8" Y="201"/>
+        <UsageCount Value="10"/>
+      </Unit127>
+      <Unit128>
+        <Filename Value="C:\lazarus\lcl\stdctrls.pp"/>
+        <UnitName Value="StdCtrls"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="357"/>
+        <CursorPos X="60" Y="379"/>
+        <UsageCount Value="10"/>
+      </Unit128>
+      <Unit129>
+        <Filename Value="..\components\lazgradient\lazgradient.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="11"/>
+      </Unit129>
+      <Unit130>
+        <Filename Value="components\rgb_graphics\rgbgraphics.pas"/>
+        <UnitName Value="RGBGraphics"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="17"/>
+        <CursorPos X="39" Y="40"/>
+        <UsageCount Value="11"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit130>
+    </Units>
+    <JumpHistory Count="30" HistoryIndex="29">
+      <Position1>
+        <Filename Value="GeneratorNodeUnit.pas"/>
+        <Caret Line="163" TopLine="129"/>
+      </Position1>
+      <Position2>
+        <Filename Value="GeneratorNodeUnit.pas"/>
+        <Caret Line="8" Column="155"/>
+      </Position2>
+      <Position3>
+        <Filename Value="GeneratorNodeUnit.pas"/>
+        <Caret Line="22" Column="12"/>
+      </Position3>
+      <Position4>
+        <Filename Value="GeneratorNodeUnit.pas"/>
+        <Caret Line="137" Column="53" TopLine="102"/>
+      </Position4>
+      <Position5>
+        <Filename Value="GeneratorNodeUnit.pas"/>
+        <Caret Line="150" Column="53" TopLine="115"/>
+      </Position5>
+      <Position6>
+        <Filename Value="GeneratorNodeUnit.pas"/>
+        <Caret Line="163" Column="27" TopLine="128"/>
+      </Position6>
+      <Position7>
+        <Filename Value="GeneratorNodeUnit.pas"/>
+        <Caret Line="411" Column="84" TopLine="376"/>
+      </Position7>
+      <Position8>
+        <Filename Value="GeneratorNodeUnit.pas"/>
+        <Caret Line="412" Column="88" TopLine="377"/>
+      </Position8>
+      <Position9>
+        <Filename Value="GeneratorNodeUnit.pas"/>
+        <Caret Line="413" Column="41" TopLine="378"/>
+      </Position9>
+      <Position10>
+        <Filename Value="GeneratorNodeUnit.pas"/>
+        <Caret Line="414" Column="41" TopLine="379"/>
+      </Position10>
+      <Position11>
+        <Filename Value="GeneratorNodeUnit.pas"/>
+        <Caret Line="442" Column="41" TopLine="408"/>
+      </Position11>
+      <Position12>
+        <Filename Value="GeneratorNodeUnit.pas"/>
+        <Caret Line="471" Column="22" TopLine="436"/>
+      </Position12>
+      <Position13>
+        <Filename Value="GeneratorNodeUnit.pas"/>
+        <Caret Line="473" Column="22" TopLine="438"/>
+      </Position13>
+      <Position14>
+        <Filename Value="GeneratorNodeUnit.pas"/>
+        <Caret Line="492" Column="69" TopLine="457"/>
+      </Position14>
+      <Position15>
+        <Filename Value="GeneratorNodeUnit.pas"/>
+        <Caret Line="494" Column="69" TopLine="459"/>
+      </Position15>
+      <Position16>
+        <Filename Value="GeneratorNodeUnit.pas"/>
+        <Caret Line="512" Column="18" TopLine="477"/>
+      </Position16>
+      <Position17>
+        <Filename Value="GeneratorNodeUnit.pas"/>
+        <Caret Line="525" Column="18" TopLine="496"/>
+      </Position17>
+      <Position18>
+        <Filename Value="GeneratorNodeUnit.pas"/>
+        <Caret Line="152" Column="43" TopLine="142"/>
+      </Position18>
+      <Position19>
+        <Filename Value="GeneratorNodeUnit.pas"/>
+        <Caret Line="156" Column="41" TopLine="142"/>
+      </Position19>
+      <Position20>
+        <Filename Value="GeneratorNodeUnit.pas"/>
+        <Caret Line="39" Column="31" TopLine="25"/>
+      </Position20>
+      <Position21>
+        <Filename Value="GeneratorNodeUnit.pas"/>
+        <Caret Line="41" Column="23" TopLine="25"/>
+      </Position21>
+      <Position22>
+        <Filename Value="GeneratorNodeUnit.pas"/>
+        <Caret Line="71" Column="93" TopLine="66"/>
+      </Position22>
+      <Position23>
+        <Filename Value="GeneratorNodeUnit.pas"/>
+        <Caret Line="139" Column="40" TopLine="123"/>
+      </Position23>
+      <Position24>
+        <Filename Value="TextureMaker.lpr"/>
+        <Caret Line="34"/>
+      </Position24>
+      <Position25>
+        <Filename Value="TextureMaker.lpr"/>
+        <Caret Line="27" Column="50"/>
+      </Position25>
+      <Position26>
+        <Filename Value="TextureMaker.lpr"/>
+        <Caret Line="34"/>
+      </Position26>
+      <Position27>
+        <Filename Value="TextureMaker.lpr"/>
+        <Caret Line="13" Column="25"/>
+      </Position27>
+      <Position28>
+        <Filename Value="TextureMaker.lpr"/>
+        <Caret Line="15" Column="21"/>
+      </Position28>
+      <Position29>
+        <Filename Value="MainFormUnit.pas"/>
+        <Caret Line="1244" Column="159" TopLine="134"/>
+      </Position29>
+      <Position30>
+        <Filename Value="TextureMaker.lpr"/>
+        <Caret Line="30"/>
+      </Position30>
+    </JumpHistory>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="11"/>
+    <PathDelim Value="\"/>
+    <Target>
+      <Filename Value="..\bin\SpriteMaker"/>
+    </Target>
+    <SearchPaths>
+      <IncludeFiles Value="$(ProjOutDir)"/>
+      <Libraries Value="units"/>
+      <OtherUnitFiles Value="gl;generatornodeunit;tools;units;components\rgb_graphics;components\bgrawebp"/>
+      <UnitOutputDirectory Value="..\bin"/>
+    </SearchPaths>
+    <Parsing>
+      <Style Value="1"/>
+      <SyntaxOptions>
+        <SyntaxMode Value="Delphi"/>
+        <UseAnsiStrings Value="False"/>
+      </SyntaxOptions>
+    </Parsing>
+    <CodeGeneration>
+      <Optimizations>
+        <OptimizationLevel Value="4"/>
+        <VariablesInRegisters Value="True"/>
+        <UncertainOptimizations Value="True"/>
+      </Optimizations>
+    </CodeGeneration>
+    <Linking>
+      <Debugging>
+        <GenerateDebugInfo Value="False"/>
+        <UseLineInfoUnit Value="False"/>
+        <StripSymbols Value="True"/>
+      </Debugging>
+      <Options>
+        <Win32>
+          <GraphicApplication Value="True"/>
+        </Win32>
+      </Options>
+    </Linking>
+    <Other>
+      <WriteFPCLogo Value="False"/>
+    </Other>
+  </CompilerOptions>
+  <Debugging>
+    <Exceptions Count="3">
+      <Item1>
+        <Name Value="EAbort"/>
+      </Item1>
+      <Item2>
+        <Name Value="ECodetoolError"/>
+      </Item2>
+      <Item3>
+        <Name Value="EFOpenError"/>
+      </Item3>
+    </Exceptions>
+  </Debugging>
+</CONFIG>

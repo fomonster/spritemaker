@@ -1,0 +1,56 @@
+<TextureGenerator>
+     <generator typeid="19">
+          <params Inversed="0">
+          </params>
+          <childs>
+               <generator typeid="20">
+                    <params Method="1" Mode="0">
+                    </params>
+                    <childs>
+                         <generator typeid="17">
+                              <params colorscount="3">
+                                   <gradientpoint h="0" r="0.2375793457" g="0.1139831543" b="0.1845716834" a="1">
+                                   </gradientpoint>
+                                   <gradientpoint h="1" r="0.3041992187" g="0.5914766788" b="0.9145507812" a="1">
+                                   </gradientpoint>
+                                   <gradientpoint h="0.5199999809" r="0.6283783913" g="0.209459424" b="0.6051542759" a="1">
+                                   </gradientpoint>
+                              </params>
+                              <childs>
+                                   <generator typeid="1">
+                                        <params Type="1" ScaleX="500" ScaleY="500" OffsetX="0" OffsetY="0" Rotation="2">
+                                        </params>
+                                        <childs>
+                                        </childs>
+                                   </generator>
+                              </childs>
+                         </generator>
+                         <generator typeid="10">
+                              <params Gradient="4" Width="1" Height="1" RootSeed="1">
+                              </params>
+                              <childs>
+                              </childs>
+                         </generator>
+                    </childs>
+               </generator>
+               <generator typeid="20">
+                    <params Method="1" Mode="0">
+                    </params>
+                    <childs>
+                         <generator typeid="1">
+                              <params Type="1" ScaleX="500" ScaleY="500" OffsetX="0" OffsetY="0" Rotation="2">
+                              </params>
+                              <childs>
+                              </childs>
+                         </generator>
+                         <generator typeid="1">
+                              <params Type="1" ScaleX="200" ScaleY="200" OffsetX="0" OffsetY="0" Rotation="2">
+                              </params>
+                              <childs>
+                              </childs>
+                         </generator>
+                    </childs>
+               </generator>
+          </childs>
+     </generator>
+</TextureGenerator>

@@ -1,0 +1,42 @@
+OpenGL Box for Lazarus version 0.1
+----------------------------------
+
+By Kostas "Bad Sector" Michalopoulos. Get the latest version at:
+
+	http://www.slashstone.com/more/openglbox
+
+
+	
+Installation:
+~~~~~~~~~~~~~
+
+Open the openglbox.lpk package and press "Compile". Then press "Install".
+Lazarus will rebuild itself and once finished, the new component will be
+available from the "Additional" tab.
+
+
+Usage:
+~~~~~~
+
+Just place it in a form. Note that padding is currently buggy, so if you want
+to put it in a panel with raised or lowered borders, you should put a panel in
+it without borders and then put the opengl box in that panel with alClient
+alignment.
+
+Before doing anything else, fill the RedBits, GreenBits, BlueBits and DepthBits
+properties. They should be 8, 8, 8, 24 in most cases. If you want 16bit color
+just use 5, 6, 5 or 5, 5, 5 for RedBits, Greenbits and BlueBits (note:
+DepthBits is for the "depth buffer" not "color depth").
+
+When you render the scene using standard GL calls, use gl.SwapBuffers
+
+Check the included example for more info.
+
+
+Patching:
+~~~~~~~~~
+
+If you make any patch, or have any question, you can contact me at:
+
+	badsector@slashstone.com
+

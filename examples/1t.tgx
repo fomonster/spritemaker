@@ -1,0 +1,52 @@
+<TextureGenerator>
+     <generator typeid="20">
+          <params Method="2" Mode="0">
+          </params>
+          <childs>
+               <generator typeid="17">
+                    <params colorscount="2">
+                         <gradientpoint h="0" r="0.8750305176" g="0.8750305176" b="0.6327819824" a="1">
+                         </gradientpoint>
+                         <gradientpoint h="1" r="0" g="1" b="0.8224350214" a="1">
+                         </gradientpoint>
+                    </params>
+                    <childs>
+                         <generator typeid="32">
+                              <params Width="8" Height="8" Iterations="2" RootSeed="0">
+                              </params>
+                              <childs>
+                              </childs>
+                         </generator>
+                    </childs>
+               </generator>
+               <generator typeid="20">
+                    <params Method="1" Mode="0">
+                    </params>
+                    <childs>
+                         <generator typeid="17">
+                              <params colorscount="2">
+                                   <gradientpoint h="0" r="0.8750305176" g="0.8750305176" b="0.6327819824" a="1">
+                                   </gradientpoint>
+                                   <gradientpoint h="1" r="0" g="1" b="0.8224350214" a="1">
+                                   </gradientpoint>
+                              </params>
+                              <childs>
+                                   <generator typeid="32">
+                                        <params Width="8" Height="8" Iterations="1" RootSeed="2">
+                                        </params>
+                                        <childs>
+                                        </childs>
+                                   </generator>
+                              </childs>
+                         </generator>
+                         <generator typeid="32">
+                              <params Width="8" Height="8" Iterations="2" RootSeed="373">
+                              </params>
+                              <childs>
+                              </childs>
+                         </generator>
+                    </childs>
+               </generator>
+          </childs>
+     </generator>
+</TextureGenerator>

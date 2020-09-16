@@ -1,0 +1,532 @@
+{*******************************************************************************
+  Компонент для отображения элементов планирования
+  Автор: Фомин С.С.
+  
+*******************************************************************************}
+unit SSNodesView;
+{******************************************************************************}
+interface
+{******************************************************************************}
+uses
+{******************************************************************************}
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, ExtCtrls,
+  SSNodesViewScroll, Dialogs,GeneratorTreeUnit;
+{******************************************************************************}
+type
+{******************************************************************************}
+  TNodesView = class;
+{******************************************************************************}
+// Функции событий
+  TMouseDownEvent = procedure (Sender: TObject; Button: TMouseButton;Shift: TShiftState; X, Y: integer) of object;
+  TMouseUpEvent = procedure (Sender: TObject; Button: TMouseButton;Shift: TShiftState; X, Y: integer) of object;
+  TDblClickEvent = procedure  (Sender: TObject) of object;
+  TMouseMoveEvent = procedure (Sender: TObject; X, Y: Integer) of object;
+  TRightClickEvent = procedure  (Sender: TObject; X, Y: Integer) of object;
+
+// Константы
+TBackgroundStyle = (bsNoBitmap, bsStretched, bsTiled, bsTiledAndScrolled, bsTiledHorisontalAnsScrolled);
+
+{******************************************************************************}
+TNodesView = class(TNodesViewScroller)
+private
+public
+  AWidth, AHeight: Integer;
+  OldWidth,OldHeight:Integer;
+  dx, dy: Integer;
+  canv: TCanvas;
+
+
+  FOnMouseDown: TMouseDownEvent;
+  FOnMouseUp: TMouseUpEvent;
+  FOnMouseMove: TMouseMoveEvent;
+  FOnDblClick: TDblClickEvent;
+  FOnSelect: TNotifyEvent;
+  FOnResized: TNotifyEvent;
+
+  FBackBitmap: TBitmap;
+  FBackgroundStyle: TBackgroundStyle;
+
+  GeneratorTree:TGeneratorNodeList;
+
+  DefaultFontName:AnsiString;
+  DefaultFontSize:Integer;
+  DefaultFontStyle:TFontStyles;
+  {**************************************************************************}
+
+  constructor Create(AOwner: TComponent); override;
+  destructor Destroy; override;
+
+  procedure Paint; override;
+  procedure PreCalculate;
+
+  procedure WMSize(var Message: TWMSize); message WM_SIZE;
+  procedure WMEraseBkgnd(var Message: TWMEraseBkgnd); message WM_ERASEBKGND;
+
+  procedure DrawBackground(DC: HDC; Rect: TRect; Width,Height:Integer);
+  procedure DrawGradient(x1,y1,x2,y2:Integer;ColorFrom,ColorTo:TColor;IsVertical:boolean);overload;
+  procedure DrawGradient(r:TRect;ColorFrom,ColorTo:TColor);overload;
+
+  procedure DrawText(x,y:Integer;s:AnsiString;Color:TColor);overload;
+  procedure DrawText(x,y:Integer;s:AnsiString;Color:TColor;FontName:AnsiString;FontSize:Integer;FontStyle:TFontStyles);overload;
+  function GetTextWidth(s:AnsiString):Integer;overload;
+  function GetTextWidth(s:AnsiString;FontName:AnsiString;FontSize:Integer;FontStyle:TFontStyles):Integer;overload;
+  function GetTextHeight(s:AnsiString):Integer;overload;
+  function GetTextHeight(s:AnsiString;FontName:AnsiString;FontSize:Integer;FontStyle:TFontStyles):Integer;overload;
+
+  procedure DrawLine(x1,y1,x2,y2:Integer;Color:TColor);
+  procedure DrawRectangle(x1,y1,x2,y2:Integer;Color:TColor);overload;
+  procedure DrawRectangle(x1,y1,x2,y2:Integer;Color,ColorBg:TColor);overload;
+
+  procedure Click; override;
+  procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
+  procedure MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);override;
+  procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);override;
+  procedure DblClick; override;
+
+  procedure SetBackgroundBitmap(Value: TBitmap);
+  procedure SetBackgroundStyle(Value: TBackgroundStyle);
+
+  procedure Loaded; override;
+
+public
+  {**************************************************************************}
+
+
+published
+
+  property PopupMenu;
+  property OnClick;
+
+  property OnMouseDown: TMouseDownEvent read FOnMouseDown write FOnMouseDown;
+  property OnMouseUp: TMouseUpEvent read FOnMouseUp write FOnMouseUp;
+  property OnMouseMove: TMouseMoveEvent read FOnMouseMove write FOnMouseMove;
+
+  property OnDblClick: TDblClickEvent read FOnDblClick write FOnDblClick;
+
+  property OnSelect: TNotifyEvent read FOnSelect write FOnSelect;
+  property OnResized: TNotifyEvent read FOnResized write FOnResized;
+
+  property BackgroundBitmap: TBitmap read FBackBitmap write SetBackgroundBitmap;
+  property BackgroundStyle: TBackgroundStyle read FBackgroundStyle write SetBackgroundStyle;
+
+end;
+{******************************************************************************}
+
+{******************************************************************************}
+implementation
+{******************************************************************************}
+//    Uses MainForm;
+{*******************************************************************************
+  class TNodesView
+*******************************************************************************}
+// Конструктор
+constructor TNodesView.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+
+  Align:=alClient;
+
+  AWidth          := 2000;
+  AHeight         := 2000;
+
+  FBackBitmap    := TBitmap.Create;
+  FBackGroundStyle := bsNoBitmap;
+
+
+  FOnMouseDown:=nil;
+  FOnMouseUp:=nil;
+  FOnMouseMove:=nil;
+  FOnDblClick:=nil;
+  FOnSelect:=nil;
+  FOnResized:=nil;
+
+ // UpdateScrollBars(AWidth, AHeight div SmallStep);
+
+end;
+// Деструктор
+destructor TNodesView.Destroy;
+begin
+  FBackBitmap.Free;
+
+  inherited Destroy;
+
+end;
+{******************************************************************************}
+
+procedure TNodesView.Paint;
+  var
+    buffer: TBitmap;
+    x,y,yh:Integer;
+    ct,dt:TDateTime;
+    i,j,no: Integer;
+//    r :TRect;
+    s, s1 : String;
+begin
+  GeneratorTree.PreRender;
+  AWidth:=GeneratorTree.AWidth;
+  AHeight:=GeneratorTree.AHeight;
+  UpdateScrollBars(AWidth, AHeight);
+
+  // Создаем буфер для прорисовки
+  dx:=HPos+Canvas.ClipRect.Left;
+  dy:=VPos+Canvas.ClipRect.Top;
+
+
+  buffer := TBitmap.Create;
+  buffer.Width := Canvas.ClipRect.Right-Canvas.ClipRect.Left+1;
+  buffer.Height := Canvas.ClipRect.Bottom-Canvas.ClipRect.Top+1;
+  canv:=buffer.Canvas;
+
+  // Рисуем фон,
+  DrawBackground(canv.Handle, Canvas.ClipRect, ClientWidth, ClientHeight);
+
+  GeneratorTree.Render(canv,dx,dy);
+
+  // Заканчиваем прорисовку
+  Canvas.Draw(Canvas.ClipRect.Left, Canvas.ClipRect.Top, buffer);
+  buffer.Free;
+end;
+
+{******************************************************************************}
+procedure TNodesView.DrawGradient(x1,y1,x2,y2:Integer;ColorFrom,ColorTo:TColor;IsVertical:boolean);
+var
+  A1,A2,A3,B1,B2,B3,W,H,I:Integer;
+  cR,cG,cB:Byte;
+begin
+  A1 := GetRValue (ColorToRGB (ColorFrom));
+  A2 := GetGValue (ColorToRGB (ColorFrom));
+  A3 := GetBValue (ColorToRGB (ColorFrom));
+  B1 := GetRValue (ColorToRGB (ColorTo));
+  B2 := GetGValue (ColorToRGB (ColorTo));
+  B3 := GetBValue (ColorToRGB (ColorTo));
+  W:=x2-x1+1;
+  H:=y2-y1+1;
+  if (W<=0) or (H<=0) then exit;
+  if IsVertical then begin
+    for i:=0 to H-1 do  with canv do begin
+      Pen.Color:=RGB(A1-(A1-B1)*i div H, A2-(A2-B2)*i div H, A3-(A3-B3)*i div H);
+      Rectangle(x1+dx,y1+i+dy,x2+dx,y1+i+1+dy);
+    end;
+  end else begin
+    for i:=0 to W-1 do  with canv do begin
+      Pen.Color:=RGB(A1-(A1-B1)*i div W, A2-(A2-B2)*i div W, A3-(A3-B3)*i div W);
+      Rectangle(x1+dx+i,y1+dy,x1+dx+i+1,y2+dy);
+    end;
+  end;
+end;
+{******************************************************************************}
+procedure TNodesView.DrawGradient(r:TRect;ColorFrom,ColorTo:TColor);
+var
+  A1,A2,A3,B1,B2,B3,W,H,I:Integer;
+  cR,cG,cB:Byte;
+begin
+  A1 := GetRValue (ColorToRGB (ColorFrom));
+  A2 := GetGValue (ColorToRGB (ColorFrom));
+  A3 := GetBValue (ColorToRGB (ColorFrom));
+  B1 := GetRValue (ColorToRGB (ColorTo));
+  B2 := GetGValue (ColorToRGB (ColorTo));
+  B3 := GetBValue (ColorToRGB (ColorTo));
+  W:=r.Right-r.Left+1;
+  H:=r.Bottom-r.Top+1;
+  if (W<=0) or (H<=0) then exit;
+  for i:=0 to H-1 do  with canv do begin
+    Pen.Color:=RGB(A1-(A1-B1)*i div H, A2-(A2-B2)*i div H, A3-(A3-B3)*i div H);
+    Rectangle(r.Left+dx,r.Top+i+dy,r.Right+dx,r.Top+i+1+dy);
+  end;
+end;
+{******************************************************************************}
+procedure TNodesView.DrawText(x,y:Integer;s:AnsiString;Color:TColor);
+begin
+ canv.Brush.Style := bsClear;
+ canv.Pen.Color := Color;
+ canv.Font.Color := Color;
+  canv.Font.Name := DefaultFontName;
+  canv.Font.Size := DefaultFontSize;
+  canv.Font.Style := DefaultFontStyle;
+ canv.TextOut(dx+x,dy+y,s);
+end;
+{******************************************************************************}
+procedure TNodesView.DrawText(x,y:Integer;s:AnsiString;Color:TColor;FontName:AnsiString;FontSize:Integer;FontStyle:TFontStyles);
+begin
+  canv.Brush.Style := bsClear;
+  canv.Pen.Color := Color;
+  canv.Font.Color := Color;
+  canv.Font.Name := FontName;
+  canv.Font.Size := FontSize;
+  canv.Font.Style := FontStyle;
+  canv.TextOut(dx+x,dy+y,s);
+end;
+{******************************************************************************}
+function TNodesView.GetTextWidth(s:AnsiString):Integer;
+begin
+  canv.Brush.Style := bsClear;
+  canv.Pen.Color := Color;
+  canv.Font.Color := Color;
+  canv.Font.Name := DefaultFontName;
+  canv.Font.Size := DefaultFontSize;
+  canv.Font.Style := DefaultFontStyle;
+  result:=canv.TextWidth(s);
+end;
+{******************************************************************************}
+function TNodesView.GetTextWidth(s:AnsiString;FontName:AnsiString;FontSize:Integer;FontStyle:TFontStyles):Integer;
+begin
+  canv.Brush.Style := bsClear;
+  canv.Pen.Color := Color;
+  canv.Font.Color := Color;
+  canv.Font.Name := FontName;
+  canv.Font.Size := FontSize;
+  canv.Font.Style := FontStyle;
+  result:=canv.TextWidth(s);
+end;
+{******************************************************************************}
+function TNodesView.GetTextHeight(s:AnsiString):Integer;
+begin
+  canv.Brush.Style := bsClear;
+  canv.Pen.Color := Color;
+  canv.Font.Color := Color;
+  canv.Font.Name := DefaultFontName;
+  canv.Font.Size := DefaultFontSize;
+  canv.Font.Style := DefaultFontStyle;
+  result:=canv.TextHeight(s)
+end;
+{******************************************************************************}
+function TNodesView.GetTextHeight(s:AnsiString;FontName:AnsiString;FontSize:Integer;FontStyle:TFontStyles):Integer;
+begin
+  canv.Brush.Style := bsClear;
+  canv.Pen.Color := Color;
+  canv.Font.Color := Color;
+  canv.Font.Name := FontName;
+  canv.Font.Size := FontSize;
+  canv.Font.Style := FontStyle;
+  result:=canv.TextHeight(s)
+end;
+{******************************************************************************}
+procedure TNodesView.DrawLine(x1,y1,x2,y2:Integer;Color:TColor);
+begin
+  canv.Pen.Color := Color;
+  canv.MoveTo(x1+dx,y1+dy);
+  canv.LineTo(x2+dx,y2+dy);
+end;
+{******************************************************************************}
+procedure TNodesView.DrawRectangle(x1,y1,x2,y2:Integer;Color,ColorBg:TColor);
+begin
+  canv.Pen.Color := Color;
+  canv.Brush.Style := bsSolid;
+  canv.Brush.Color := ColorBg;
+  canv.Rectangle(x1+dx,y1+dy,x2+dx+1,y2+dy+1);
+end;
+{******************************************************************************}
+procedure TNodesView.DrawRectangle(x1,y1,x2,y2:Integer;Color:TColor);
+begin
+  canv.Pen.Color := Color;
+  canv.Brush.Style := bsClear;
+  canv.Rectangle(x1+dx,y1+dy,x2+dx+1,y2+dy+1);
+end;
+{******************************************************************************}
+procedure TNodesView.DrawBackground(DC: HDC; Rect: TRect; Width,Height:Integer);
+  var
+    i, j: Integer;
+    hbr: HBRUSH;
+begin
+  if FBackBitmap.Empty or (FBackgroundStyle=bsNoBitmap) then begin
+    hbr := CreateSolidBrush(ColorToRGB(clWhite));
+    dec(Rect.Bottom, Rect.Top);
+    dec(Rect.Right, Rect.Left);
+    Rect.Left := 0;
+    Rect.Top := 0;
+    FillRect(DC, Rect, hbr);
+    DeleteObject(hbr);
+  end else begin
+    case FBackgroundStyle of
+      bsTiled:
+        begin
+          for i:= Rect.Top div FBackBitmap.Height to Rect.Bottom div FBackBitmap.Height do
+            for j:= Rect.Left div FBackBitmap.Width to Rect.Right div FBackBitmap.Width do
+              BitBlt(DC, j*FBackBitmap.Width-Rect.Left,i*FBackBitmap.Height-Rect.Top, FBackBitmap.Width,FBackBitmap.Height, FBackBitmap.Canvas.Handle, 0, 0, SRCCOPY);
+        end;
+      bsStretched:
+        begin
+          StretchBlt(DC, -Rect.Left, -Rect.Top, Width, Height,FBackBitmap.Canvas.Handle, 0, 0, FBackBitmap.Width, FBackBitmap.Height,SRCCOPY);
+        end;
+      bsTiledAndScrolled:
+        begin
+          for i:= (Rect.Top+VPos) div FBackBitmap.Height to (Rect.Bottom+VPos) div FBackBitmap.Height do
+            for j:= (Rect.Left+HPos) div FBackBitmap.Width to (Rect.Right+HPos) div FBackBitmap.Width do
+              BitBlt(DC, j*FBackBitmap.Width-HPos-Rect.Left,i*FBackBitmap.Height-VPos-Rect.Top, FBackBitmap.Width,FBackBitmap.Height, FBackBitmap.Canvas.Handle, 0, 0, SRCCOPY);
+        end;      
+      bsTiledHorisontalAnsScrolled:
+        begin
+          for i:= (Rect.Top+VPos) div FBackBitmap.Height to (Rect.Bottom+VPos) div FBackBitmap.Height do
+            StretchBlt(DC, -Rect.Left, i*FBackBitmap.Height-VPos-Rect.Top, Width,FBackBitmap.Height,FBackBitmap.Canvas.Handle, 0, 0, FBackBitmap.Width, FBackBitmap.Height,SRCCOPY);
+        end;
+    end
+  end;
+end;
+{******************************************************************************}
+
+{******************************************************************************}
+procedure TNodesView.SetBackgroundBitmap(Value: TBitmap);
+begin
+  FBackBitmap.Assign(Value);
+  if (Value=nil) or (Value.Empty) then
+     FullRedraw := False
+  else
+     case FBackgroundStyle of
+       bsNoBitmap, bsTiledAndScrolled:
+               FullRedraw := False;
+       bsStretched, bsTiled, bsTiledHorisontalAnsScrolled:
+               FullRedraw := True;
+     end;
+end;
+{******************************************************************************}
+procedure TNodesView.PreCalculate;
+  var
+    r:TRect;
+begin
+  // Прекалькуляция
+  r := Canvas.ClipRect;
+  dy := - VPos;
+  dec(r.Top,dy);
+  dec(r.Bottom,dy);
+  dec(dy, Canvas.ClipRect.Top);
+  dx := - HPos - Canvas.ClipRect.Left;
+end;
+{******************************************************************************}
+procedure TNodesView.SetBackgroundStyle(Value: TBackgroundStyle);
+begin
+  FBackgroundStyle := Value;
+  if FBackBitmap.Empty then
+     FullRedraw := False
+  else
+     case FBackgroundStyle of
+       bsNoBitmap, bsTiledAndScrolled:
+               FullRedraw := False;
+       bsStretched, bsTiled:
+               FullRedraw := True;
+     end;
+end;
+{******************************************************************************}
+procedure TNodesView.WMSize(var Message: TWMSize);
+begin
+  if Assigned(FOnResized) then FOnResized(Self);
+end;
+{******************************************************************************}
+procedure TNodesView.WMEraseBkgnd(var Message: TWMEraseBkgnd);
+var r1: TRect;
+begin
+  Message.Result := 1;
+  if (OldWidth<ClientWidth) or (OldHeight<ClientHeight) then begin
+      GetClipBox(Message.DC, r1);
+      DrawBackground(Message.DC, r1, ClientWidth, ClientHeight);
+  end;
+  OldWidth := ClientWidth;
+  OldHeight := ClientHeight;
+end;
+{******************************************************************************}
+procedure TNodesView.DblClick;
+begin
+  if Assigned(FOnDblClick) then FOnDblClick(self);
+  inherited DblClick;  
+end;
+{******************************************************************************}
+procedure TNodesView.Click;
+begin
+  SetFocus;
+  inherited;
+end;
+{******************************************************************************}
+procedure TNodesView.Loaded;
+begin
+  inherited Loaded;
+end;
+{******************************************************************************}
+procedure TNodesView.MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+  var
+    dx,dy:Integer;
+begin
+  PreCalculate;
+  if Assigned(FOnMouseDown) then FOnMouseDown(self,Button,Shift,HPos+x,VPos+y);
+{  XClicked := X;
+  YClicked := Y;
+  if Button = mbLeft then begin
+    IsNeedRepaint:=false;
+    IsWasMouseIn:=false;
+    if SelectedPlan<>nil then IsNeedRepaint:=true;
+    SelectedPlan:=nil;
+    for i:=0 to columnslist.Count-1 do begin
+      for j:=0 to GetColumns(i).Count-1 do begin
+        if GetColumns(i).Get(j).HitTest(X-dx,Y-dy) and not IsWasMouseIn then begin
+          if not GetColumns(i).Get(j).IsMouseDown then IsNeedRepaint:=true;
+          GetColumns(i).Get(j).IsMouseDown:=true;
+          GetColumns(i).Get(j).IsSelected:=true;
+          SelectedPlan:=GetColumns(i).Get(j);
+          IsWasMouseIn:=true;
+        end else begin
+          GetColumns(i).Get(j).IsMouseDown:=false;
+          GetColumns(i).Get(j).IsSelected:=false;
+          if GetColumns(i).Get(j).IsMouseDown then IsNeedRepaint:=true;
+        end;
+      end;
+    end;
+  end;
+  if IsNeedRepaint then Paint;}
+  inherited MouseDown(Button, Shift, X, Y);
+end;
+
+procedure TNodesView.MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+  var
+    i,j:Integer;
+    IsNeedRepaint:Boolean;
+begin
+  PreCalculate;
+  if Assigned(FOnMouseUp) then FOnMouseUp(self,Button,Shift,HPos+x,VPos+y);
+{  XClicked := X;
+  YClicked := Y;
+  if Button = mbLeft then begin
+    IsNeedRepaint:=false;
+    for i:=0 to columnslist.Count-1 do begin
+      for j:=0 to GetColumns(i).Count-1 do begin
+        if GetColumns(i).Get(j).HitTest(X-dx,Y-dy) then begin
+          // на конкретном
+        end;
+        if GetColumns(i).Get(j).IsMouseDown then IsNeedRepaint:=true;
+        GetColumns(i).Get(j).IsMouseDown:=false;
+      end;
+    end;
+  end;
+  if IsNeedRepaint then Paint;}
+  inherited MouseUp(Button, Shift, X, Y);
+end;
+
+procedure TNodesView.MouseMove(Shift: TShiftState; X, Y: Integer);
+  var
+    i,j:Integer;
+    IsNeedRepaint:Boolean;
+    IsWasMouseIn:Boolean;
+begin
+  PreCalculate;
+  if Assigned(FOnMouseMove) then FOnMouseMove(self,Button,Shift,HPos+x,VPos+y);
+{
+  IsNeedRepaint:=false;
+  IsWasMouseIn:=false;
+  for i:=0 to columnslist.Count-1 do begin
+    GetColumns(i).IsMouseOver:=false;
+    for j:=0 to GetColumns(i).Count-1 do begin
+      if GetColumns(i).Get(j).HitTest(X-dx,Y-dy) and not IsWasMouseIn then begin
+        if not GetColumns(i).Get(j).IsMouseOver then IsNeedRepaint:=true;
+        GetColumns(i).Get(j).IsMouseOver:=true;
+        IsWasMouseIn:=true;
+      end else begin
+        if GetColumns(i).Get(j).IsMouseOver then IsNeedRepaint:=true;
+        GetColumns(i).Get(j).IsMouseOver:=false;
+        GetColumns(i).Get(j).IsMouseDown:=false;
+      end;
+    end;
+  end;
+  
+  if IsNeedRepaint then Paint;}
+  inherited MouseMove(Shift, X, Y);
+end;
+
+
+end.
